@@ -96,7 +96,7 @@ public class SyntaxUtilities
 		styles[Token.KEYWORD1] = new SyntaxStyle(Color.blue,false,true);
 		styles[Token.KEYWORD2] = new SyntaxStyle(Color.blue,false,false);
 		styles[Token.KEYWORD3] = new SyntaxStyle(Color.blue,false,false);
-		styles[Token.LITERAL1] = new SyntaxStyle(Color.red,false,false);
+		styles[Token.LITERAL1] = new SyntaxStyle(Color.red,false,true);
 		styles[Token.LITERAL2] = new SyntaxStyle(Color.red,false,false);
 		styles[Token.LABEL] = new SyntaxStyle(new Color(0,0,139),false,true);
 		styles[Token.OPERATOR] = new SyntaxStyle(Color.blue,false,true);

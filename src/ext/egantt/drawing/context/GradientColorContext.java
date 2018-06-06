@@ -65,20 +65,17 @@ public class GradientColorContext
     public static final GraphicsContext blue;
     public static final GraphicsContext BLUE;
     
-    public static final GraphicsContext OTHER0;
-    public static final GraphicsContext CLUSTER11;
-    public static final GraphicsContext QUEUEING12;
-    public static final GraphicsContext NETWORK7;
-    public static final GraphicsContext ADMINISTRATIVE3;
-    public static final GraphicsContext CONFIGURATION2;
-    public static final GraphicsContext COMMIT5;
-    public static final GraphicsContext APPLICATION1;
-    public static final GraphicsContext CONCURRENCY4;
-    public static final GraphicsContext SYSTEMIO9;
-    public static final GraphicsContext USERIO8;
-    public static final GraphicsContext SCHEDULER10;
-    public static final GraphicsContext CPU;
-    
+    public static final GraphicsContext CPU0;
+    public static final GraphicsContext IO1;
+    public static final GraphicsContext LOCK2;
+    public static final GraphicsContext LWLOCK3;
+    public static final GraphicsContext BUFFERPIN4;
+    public static final GraphicsContext ACTIVITY5;
+    public static final GraphicsContext EXTENSION6;
+    public static final GraphicsContext CLIENT7;
+    public static final GraphicsContext IPC8;
+    public static final GraphicsContext TIMEOUT9;
+
     static 
     {
         WHITE = new LocalColorContext(Color.white);
@@ -105,19 +102,16 @@ public class GradientColorContext
         CYAN = cyan;
         blue = new LocalColorContext(Color.blue);
         BLUE = blue;
-        
-        OTHER0 = new LocalColorContext(new Color(255,87,143));        
-        CLUSTER11 = new LocalColorContext(new Color(117,117,117));
-        QUEUEING12 = new LocalColorContext(new Color(232,232,232));        
-        NETWORK7 = new LocalColorContext(new Color(156,157,108));
-       	ADMINISTRATIVE3 = new LocalColorContext(new Color(84,84,29));
-   		CONFIGURATION2 = new LocalColorContext(new Color(84,56,28));
-   		COMMIT5 = new LocalColorContext(new Color(194,133,71));
-   		APPLICATION1 = new LocalColorContext(new Color(194,71,71));
-   		CONCURRENCY4 = new LocalColorContext(new Color(153,51,51));
-   		SYSTEMIO9 = new LocalColorContext(new Color(0,161,230));
-   		USERIO8 = new LocalColorContext(new Color(0,46,230));
-   		SCHEDULER10 = new LocalColorContext(new Color(133,255,133));
-   		CPU = new LocalColorContext(new Color(0,179,0));
+
+        CPU0 = new LocalColorContext(new Color(0,204,0));
+        IO1 = new LocalColorContext(new Color(0,74,231));
+        LOCK2 = new LocalColorContext(new Color(192,40,0));
+        LWLOCK3 = new LocalColorContext(new Color(139,26,0));
+        BUFFERPIN4 = new LocalColorContext(new Color(0,161,230));
+        ACTIVITY5 = new LocalColorContext(new Color(255,165,0));
+        EXTENSION6 = new LocalColorContext(new Color(0,123,20));
+        CLIENT7 = new LocalColorContext(new Color(159,147,113));
+        IPC8 = new LocalColorContext(new Color(240,110,170));
+        TIMEOUT9 = new LocalColorContext(new Color(84,56,28));
     }
 }

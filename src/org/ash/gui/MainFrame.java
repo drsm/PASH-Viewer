@@ -29,9 +29,8 @@ import org.ash.database.*;
 import org.ash.detail.DetailPanels;
 import org.ash.history.MainPanel;
 import org.ash.invoker.Collector;
-import org.ash.invoker.Collector10g11gUI;
-import org.ash.invoker.Collector9iAndSEDB;
-import org.ash.invoker.Collector9iAndSEUI;
+import org.ash.invoker.CollectorDB;
+import org.ash.invoker.CollectorUI;
 import org.ash.util.Options;
 import org.jfree.chart.ChartPanel;
 
@@ -125,6 +124,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		Options.getInstance().setDateFormat("dd.MM.yyyy hh:mm:ss");
 		Options.getInstance().setLanguage(Locale.getDefault().getLanguage());
 		Options.getInstance().setJtextAreaSqlTextGanttHAndDetailsH();
+		Options.getInstance().setJtextAreaSqlPlanGanttHAndDetailsH();
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setSize((int) screenSize.getWidth(),
@@ -213,7 +213,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		/** Initialize progressBar*/
 		ProgressOnStart progressBarOnStart = new ProgressOnStart();
 		
-		/** Initialize connection pool to Oracle database */
+		/** Initialize connection pool to database */
 		this.initializeConnectionPool();
 			progressBarOnStart.setProgressValueAndTaskOutput(5,"Initialize connection pool");
 
@@ -229,13 +229,13 @@ public class MainFrame extends JFrame implements ActionListener{
 		/** Initialize History panel */
 		this.historyJPanel = new MainPanel(this,this.statusBar);
 		this.historyJPanel.setVisible(false);
-			progressBarOnStart.setProgressValueAndTaskOutput(40,"Initialize history tab");
+		progressBarOnStart.setProgressValueAndTaskOutput(40,"Initialize history tab");
 
 		/** Initialize main Top Activity chart panel */
 		this.stackedChartMainObject = new StackedChart(this.database);
 		this.setThresholdMaxCpu();
 		this.chartChartPanel = this.stackedChartMainObject.createChartPanel();
-			progressBarOnStart.setProgressValueAndTaskOutput(60,"Initialize Top Activity tab");
+		progressBarOnStart.setProgressValueAndTaskOutput(60,"Initialize Top Activity tab");
 			
 		/** Initialize Sqls & Sessions JPanel*/
 		this.sqlsAndSessions = new Gantt(this, this.database);
@@ -318,7 +318,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		this.statusBar.updateLabelStringHistory();
 		
 		this.jButtonSettings.setEnabled(false);
-		this.setTitle("ASH Viewer ::: Off-line mode :::");
+		this.setTitle("PASH Viewer ::: Off-line mode :::");
 		
 		this.validate();
 		this.setVisible(true);
@@ -329,60 +329,12 @@ public class MainFrame extends JFrame implements ActionListener{
 	 * Initialize berkeley database.
 	 */
 	private void initializeBerkeleyDatabaseAndLoading() {
-
-		String versionOracleDB = model.getVersionDB();
-				
-		if (Options.getInstance().getEditionDb().equalsIgnoreCase("EE")){
-
-			if (versionOracleDB.equalsIgnoreCase("10g2")) {
-				this.database = new Database10g2(this.model);
-				this.collectorUI = new Collector10g11gUI(this.database, this.latency);
-				this.database.loadToLocalBDB();
-				this.database.loadToLocalBDBCollector();
-			}
 			
-			if (versionOracleDB.equalsIgnoreCase("10g1")) {
-				this.database = new Database10g1(this.model);
-				this.collectorUI = new Collector10g11gUI(this.database, this.latency);
-				this.database.loadToLocalBDB();
-				this.database.loadToLocalBDBCollector();
-			}
-			
-			if (versionOracleDB.equalsIgnoreCase("11g")) {
-				this.database = new Database11g1(this.model);
-				this.collectorUI = new Collector10g11gUI(this.database, this.latency);
-				this.database.loadToLocalBDB();
-				this.database.loadToLocalBDBCollector();
-			}
-			/*if (versionOracleDB.equalsIgnoreCase("11g2")) {
-				this.database = new Database11g2(this.model);
-				this.collectorUI = new Collector10g11gUI(this.database, this.latency);
-				this.database.loadToLocalBDB();
-				this.database.loadToLocalBDBCollector();
-			}*/
-		} else { // SE
-				this.database = new Database10g11gSE(this.model);
-				this.collectorUI = new Collector9iAndSEUI(this.database, this.latency);
-				this.collectorDB = new Collector9iAndSEDB(this.database, this.latency);
-				this.database.loadToLocalBDB();
-				this.collectorDB.start();
-		}
-		
-		if (versionOracleDB.equalsIgnoreCase("9i")) {
-			this.database = new Database9i(this.model);
-			this.collectorUI = new Collector9iAndSEUI(this.database, this.latency);
-			this.collectorDB = new Collector9iAndSEDB(this.database, this.latency);
-			this.database.loadToLocalBDB();
-			this.collectorDB.start();
-		}
-		
-		if (versionOracleDB.equalsIgnoreCase("8i")) {
-			this.database = new Database8i(this.model);
-			this.collectorUI = new Collector9iAndSEUI(this.database, this.latency);
-			this.collectorDB = new Collector9iAndSEDB(this.database, this.latency);
-			this.database.loadToLocalBDB();
-			this.collectorDB.start();
-		}
+		this.database = new ASHDatabasePG10(this.model);
+		this.collectorUI = new CollectorUI(this.database, this.latency);
+		this.collectorDB = new CollectorDB(this.database, this.latency);
+		this.database.loadToLocalBDB();
+		this.collectorDB.start();
 		
 		// Save ref. to DatabaseMain
 		Options.getInstance().setDatabaseMain(this.database);
@@ -430,7 +382,8 @@ public class MainFrame extends JFrame implements ActionListener{
 	 */
 	private void setThresholdMaxCpu(){
 		Double valueSampleTime = 0.0;
-		double maxCpu = Double.parseDouble(this.database.getParameter("cpu_count"));
+		// double maxCpu = Double.parseDouble(this.database.getParameter("cpu_count"));
+		double maxCpu = 4.0;
 		this.stackedChartMainObject.setThresholdMaxCpu(maxCpu);
 		this.detailJPanel.setThresholdMaxCpu(maxCpu);
 	}
@@ -441,18 +394,17 @@ public class MainFrame extends JFrame implements ActionListener{
 	private void setTitle() {
 
 		/** set title of current frame*/
-		this.setTitle("ASH Viewer ::: "
-				+ dbConnUtil.getDbConnection().getName() + "|"
-				+ dbConnUtil.getDbConnection().getHost() + "|"
-				+ dbConnUtil.getDbConnection().getPort() + "|"
-				+ dbConnUtil.getDbConnection().getSID() + "|"
-				+ dbConnUtil.getDbConnection().getUsername());
+		this.setTitle("PASH Viewer ::: "
+				+ dbConnUtil.getDbConnection().getUsername() + "@"
+				+ dbConnUtil.getDbConnection().getHost() + ":"
+				+ dbConnUtil.getDbConnection().getPort() + "/"
+				+ dbConnUtil.getDbConnection().getDB());
 		
 		/** load parameters to local BDB */
 		this.database.saveParameterToLocalBDB("ASH.name", dbConnUtil.getDbConnection().getName());
 		this.database.saveParameterToLocalBDB("ASH.host", dbConnUtil.getDbConnection().getHost());
 		this.database.saveParameterToLocalBDB("ASH.port", dbConnUtil.getDbConnection().getPort());
-		this.database.saveParameterToLocalBDB("ASH.sid", dbConnUtil.getDbConnection().getSID());
+		this.database.saveParameterToLocalBDB("ASH.db", dbConnUtil.getDbConnection().getDB());
 		this.database.saveParameterToLocalBDB("ASH.username", dbConnUtil.getDbConnection().getUsername());
 		this.database.saveParameterToLocalBDB("ASH.version", Options.getInstance().getVersionDb());
 	}	
@@ -463,27 +415,14 @@ public class MainFrame extends JFrame implements ActionListener{
 	private void initializeConnectionPool() {
 
 		/** init connection parameter */
-		/*String connParam = "jdbc:oracle:thin:@//"
-				+ dbConnUtil.getDbConnection().getHost() + ":"
-				+ dbConnUtil.getDbConnection().getPort() + "/"
-				+ dbConnUtil.getDbConnection().getSID();*/
-
-		String connParam = "jdbc:oracle:thin:"
-				+ "@(description=(address=(host=" + dbConnUtil.getDbConnection().getHost()
-				+ ")(protocol=tcp)(port=" + dbConnUtil.getDbConnection().getPort()
-				+ "))(connect_data=(service_name=" + dbConnUtil.getDbConnection().getSID()
-				+ ")(server=DEDICATED)))";
-				/*+ dbConnUtil.getDbConnection().getHost() + ":"
-				+ dbConnUtil.getDbConnection().getPort() + "/"
-				+ dbConnUtil.getDbConnection().getSID();*/
-
-		//jdbc:oracle:thin:@(description=(address=(host=HOSTNAME)(protocol=tcp)(port=PORT))(connect_data=(service_name=SERVICENAME)(server=SHARED)))
+		String connParam = "jdbc:postgresql://"
+				+ dbConnUtil.getDbConnection().getHost()
+				+ ":" + dbConnUtil.getDbConnection().getPort()
+				+ "/" + dbConnUtil.getDbConnection().getDB();
 
 		/** init connection pool */
-		model.connectionPoolInit("oracle.jdbc.pool.OracleDataSource",
-				connParam, dbConnUtil.getDbConnection().getUsername(),
-				dbConnUtil.getDbConnection().getPassword());
-		
+		model.connectionPoolInit("org.postgresql.Driver", connParam, dbConnUtil.getDbConnection().getUsername(), dbConnUtil.getDbConnection().getPassword());		
+
 		/** check errors */
 		if (model.getErrorMessage() != null) {
 			JOptionPane.showMessageDialog(this, model.getErrorMessage(),
@@ -497,9 +436,6 @@ public class MainFrame extends JFrame implements ActionListener{
 				dbConnUtil.getDbConnection().getName());
 		Options.getInstance().setVersionDb(
 				model.getVersionDB());
-		Options.getInstance().setEditionDb(
-				dbConnUtil.getDbConnection().getEdition());
-
 	}
 
 	/**
@@ -631,15 +567,12 @@ public class MainFrame extends JFrame implements ActionListener{
 	public void stateChanged(ChangeEvent changeEvent) {
 	    JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
 	    int index = sourceTabbedPane.getSelectedIndex();
-	    if (sourceTabbedPane.getTitleAt(index).
-	    		equalsIgnoreCase(Options.getInstance().getResource("tabMain.text"))){
+	    if (sourceTabbedPane.getTitleAt(index).equalsIgnoreCase(Options.getInstance().getResource("tabMain.text"))){
 	    	statusBar.updateLabelStringTopActivity();
-	    } else if(sourceTabbedPane.getTitleAt(index).
-	    		equalsIgnoreCase(Options.getInstance().getResource("tabDetail.text"))) {
+	    } else if(sourceTabbedPane.getTitleAt(index).equalsIgnoreCase(Options.getInstance().getResource("tabDetail.text"))) {
 	    	statusBar.updateLabelStringDetail(detailJPanel.getCurrentTabName());
 	    }
-	      else if(sourceTabbedPane.getTitleAt(index).
-	    		equalsIgnoreCase(Options.getInstance().getResource("tabHistory.text"))) {
+	      else if(sourceTabbedPane.getTitleAt(index).equalsIgnoreCase(Options.getInstance().getResource("tabHistory.text"))) {
 	    	statusBar.updateLabelStringHistory();
 	    }
 	  }
@@ -666,8 +599,7 @@ public class MainFrame extends JFrame implements ActionListener{
 			stackedChartMainObject.setSelectionChart(false);
 			stackedChartMainObject.setFlagThresholdBeginTimeAutoSelection(true);
 			
-			stackedChartMainObject.setThresholdBeginTimeAutoSelection(
-					beginTime,collectorUI.getRangeWindow()/collectorUI.getK());
+			stackedChartMainObject.setThresholdBeginTimeAutoSelection(beginTime,collectorUI.getRangeWindow()/collectorUI.getK());
 			sqlsAndSessions.loadDataToJPanels(beginTime, endTime);
 			statusBar.setRange(beginTime, endTime);
 			

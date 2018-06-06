@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project default="run" name="ASHV">
     <description>
-        ASH Viewer build file
+        PASH Viewer build file
     </description>
 
     <property name="main.class" value="org.ash.MainApp"/>
@@ -32,8 +32,8 @@
                destdir="${build.dir}"
                debug="on"
                deprecation="false"
-               source="1.5"
-               target="1.5"
+               source="1.7"
+               target="1.7"
                classpath="${build.classpath}"
                includeantruntime="false">
             <include name="org/jfree/**"/>

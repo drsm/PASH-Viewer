@@ -141,8 +141,7 @@ public class Settings extends JDialog {
 	
 	
 	/** The range window list. */
-	private String rangeWindowList[] = {"1 min","5 min","10 min"
-			,"15 min","20 min", "25 min", "30 min"};
+	private String rangeWindowList[] = {"1 min","5 min","10 min","15 min","20 min", "25 min", "30 min"};
 	/** The spinner model. */
 	private SpinnerListModel spinnerModel;
 	/** The spiner range window. */

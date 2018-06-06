@@ -34,6 +34,7 @@ import javax.crypto.spec.*;
 import org.ash.database.ASHDatabase;
 import org.syntax.jedit.JEditTextArea;
 import org.syntax.jedit.tokenmarker.PLSQLTokenMarker;
+import org.syntax.jedit.tokenmarker.CTokenMarker;
 
 /**
  * The Class Options.
@@ -58,13 +59,13 @@ public class Options {
   /** The resource bundle event. */
   private ResourceBundle resourceBundleEvent = null;
   
-  /** The resource bundle event. Oracle 8i */
+  /** The resource bundle event. */
   private ResourceBundle resourceBundleEvent8i = null;
   
   /** The resource bundle wait class. */
   private ResourceBundle resourceBundleWaitClass = null;
   
-  /** The resource bundle wait class. Oracle 8i*/
+  /** The resource bundle wait class. */
   private ResourceBundle resourceBundleWaitClass8i = null;
   
   /** The resource bundle event. */
@@ -96,6 +97,11 @@ public class Options {
 
   /** Set env directory for Berkley DB */
   private String envDir = "";
+
+	// dcvetkov
+	// Директория для хранения планов
+  private String planDir = "";
+
   
   /** Set DatabaseMain instance. For delete action on history panel. */
   private ASHDatabase databaseMain = null;
@@ -116,9 +122,11 @@ public class Options {
   
   /** SQL text for TA history pane. */
   private JEditTextArea jtextAreaSqlTextGanttH;
+  private JEditTextArea jtextAreaSqlPlanGanttH;
   
   /** SQL text for Detail history pane. */
   private JEditTextArea jtextAreaSqlTextGanttDetailsH;
+  private JEditTextArea jtextAreaSqlPlanGanttDetailsH;
   
   /**
    * Instantiates a new options.
@@ -285,6 +293,10 @@ public class Options {
   public final void setEnvDir(String envDir) {
     this.envDir = envDir;
   }
+
+  public final void setPlanDir(String planDir) {
+    this.planDir = planDir;
+  }
   
   /**
    * Get the directory of Berkley DB
@@ -293,6 +305,10 @@ public class Options {
    */
   public final String getEnvDir() {
     return this.envDir;
+  }
+
+  public final String getPlanDir() {
+    return this.planDir;
   }
 
   /**
@@ -313,12 +329,6 @@ public class Options {
   public final void setLanguage(String language) {
     this.language = language;
     resourceBundle = ResourceBundle.getBundle("org.ash.util.Dictionary", new Locale(language));
-    resourceBundleEvent = ResourceBundle.getBundle("org.ash.util.Dictionary9iEvent", new Locale(language));
-    resourceBundleEvent8i = ResourceBundle.getBundle("org.ash.util.Dictionary8iEvent", new Locale(language));
-    resourceBundleWaitClass = ResourceBundle.getBundle("org.ash.util.Dictionary9iWaitClass", new Locale(language));
-    resourceBundleWaitClass8i = ResourceBundle.getBundle("org.ash.util.Dictionary8iWaitClass", new Locale(language));
-    resourceBundleEventLatches = ResourceBundle.getBundle("org.ash.util.Dictionary9iLatches", new Locale(language));
-    resourceBundleWaitClassLatches = ResourceBundle.getBundle("org.ash.util.Dictionary9iWaitClassLatches", new Locale(language));
     eventColors = new EventColors();
   }
 
@@ -386,7 +396,7 @@ public class Options {
   }
   
   /**
-   * Gets the resource event for Oracle 8i.
+   * Gets the resource event.
    * 
    * @param key the key
    * 
@@ -581,12 +591,18 @@ public void setMinimalistic(boolean minimalistic) {
 public JEditTextArea getJtextAreaSqlTextGanttH() {
 	return jtextAreaSqlTextGanttH;
 }
+public JEditTextArea getJtextAreaSqlPlanGanttH() {
+	return jtextAreaSqlPlanGanttH;
+}
 
 /**
  * @return the jtextAreaSqlTextGanttDetailsH
  */
 public JEditTextArea getJtextAreaSqlTextGanttDetailsH() {
 	return jtextAreaSqlTextGanttDetailsH;
+}
+public JEditTextArea getJtextAreaSqlPlanGanttDetailsH() {
+	return jtextAreaSqlPlanGanttDetailsH;
 }
 
 /**
@@ -600,6 +616,16 @@ public void setJtextAreaSqlTextGanttHAndDetailsH() {
 	jtextAreaSqlTextGanttDetailsH = new JEditTextArea();
 	jtextAreaSqlTextGanttDetailsH.setTokenMarker(new PLSQLTokenMarker());
 	jtextAreaSqlTextGanttDetailsH.setEditable(false);
+}
+
+public void setJtextAreaSqlPlanGanttHAndDetailsH() {
+	jtextAreaSqlPlanGanttH = new JEditTextArea();
+	jtextAreaSqlPlanGanttH.setTokenMarker(new CTokenMarker());
+	jtextAreaSqlPlanGanttH.setEditable(false);
+	
+	jtextAreaSqlPlanGanttDetailsH = new JEditTextArea();
+	jtextAreaSqlPlanGanttDetailsH.setTokenMarker(new CTokenMarker());
+	jtextAreaSqlPlanGanttDetailsH.setEditable(false);
 }
 
 

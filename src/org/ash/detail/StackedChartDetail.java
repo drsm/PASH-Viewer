@@ -550,7 +550,7 @@ public class StackedChartDetail {
        thresholdMaxCpu.setLabelPaint(Color.red);
        thresholdMaxCpu.setLabelAnchor(RectangleAnchor.TOP_LEFT);
        thresholdMaxCpu.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
-       plot.addRangeMarker(thresholdMaxCpu);
+       // plot.addRangeMarker(thresholdMaxCpu);
     }
     
     

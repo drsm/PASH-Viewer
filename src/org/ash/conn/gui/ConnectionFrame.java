@@ -278,7 +278,7 @@ public class ConnectionFrame extends JDialog {
    * @param e the ActionEvent
    */
   void newButton_actionPerformed(ActionEvent e) {
-    new ConnectionDialog(parent,this,new DbConnection("","","","","","EE"),ConnectionDialog.INSERT);
+    new ConnectionDialog(parent,this,new DbConnection("","","","",""),ConnectionDialog.INSERT);
   }
 
 
@@ -396,8 +396,7 @@ public class ConnectionFrame extends JDialog {
           c.getClassName(),
           c.getUrl(),
           c.getUsername(),
-          c.getPassword(),
-          c.getEdition()
+          c.getPassword()
         ),
         ConnectionDialog.COPY
     );
@@ -431,13 +430,17 @@ public class ConnectionFrame extends JDialog {
    * @param c DbConnection
    */
   void createStorageDir(DbConnection c){
-	  DateFormat dateFormatDB = new SimpleDateFormat("ddMMyyyyHHmms");	
-	  File dirRootDatabase =
-	         new File(c.getName()
-	                 +FILESEPARATOR
-	                 +dateFormatDB.format(new Long(new Date().getTime())));
-	 dirRootDatabase.mkdir();
-	 Options.getInstance().setEnvDir(dirRootDatabase.toString());
+	DateFormat dateFormatDB = new SimpleDateFormat("ddMMyyyyHHmms");	
+	File dirRootDatabase = new File(c.getName()+FILESEPARATOR+dateFormatDB.format(new Long(new Date().getTime())));
+	dirRootDatabase.mkdir();
+	Options.getInstance().setEnvDir(dirRootDatabase.toString());
+
+	// dcvetkov
+	// создаём директорию для хранения планов
+	File dirPlan = new File(c.getName()+FILESEPARATOR+"plan");
+	dirPlan.mkdir();
+	Options.getInstance().setPlanDir(dirPlan.toString());
+
   }
   
   /* (non-Javadoc)

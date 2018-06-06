@@ -56,44 +56,17 @@ public class DetailsPanelH extends JPanel implements ActionListener{
 	/** The button panel. */
 	private JToolBar buttonPanel;
 	   
-	/** The radio button for cpu */
-	private JRadioButton cpuRadioButton = new JRadioButton();
-	
-	/** The radio button for scheduler */
-	private JRadioButton schedulerRadioButton = new JRadioButton();
-	
-	/** The radio button for User I/O */
-	private JRadioButton userIORadioButton = new JRadioButton();
-	
-	/** The radio button for System I/O */
-	private JRadioButton systemIORadioButton = new JRadioButton();
-	
-	/** The radio button for Concurrency */
-	private JRadioButton concurrencyRadioButton = new JRadioButton();
-	
-	/** The radio button for Application */
-	private JRadioButton applicationRadioButton = new JRadioButton();
-	
-	/** The radio button for Commit */
-	private JRadioButton commitRadioButton = new JRadioButton();
-	
-	/** The radio button for Configuration */
-	private JRadioButton configurationRadioButton = new JRadioButton();
-	
-	/** The radio button for Administrative */
-	private JRadioButton administrativeRadioButton = new JRadioButton();
-	
-	/** The radio button for Network */
-	private JRadioButton networkRadioButton = new JRadioButton();
-	
-	/** The radio button for Queuning */
-	private JRadioButton queuningRadioButton = new JRadioButton();
-	
-	/** The radio button for Cluster */
-	private JRadioButton clusterRadioButton = new JRadioButton();
-	
-	/** The radio button for Other */
-	private JRadioButton otherRadioButton = new JRadioButton();
+	/** The radio buttons for Wait Types */
+	private JRadioButton CPURadioButton = new JRadioButton();
+	private JRadioButton LWLockRadioButton = new JRadioButton();
+	private JRadioButton LockRadioButton = new JRadioButton();
+	private JRadioButton BufferPinRadioButton = new JRadioButton();
+	private JRadioButton ActivityRadioButton = new JRadioButton();
+	private JRadioButton ExtensionRadioButton = new JRadioButton();
+	private JRadioButton ClientRadioButton = new JRadioButton();
+	private JRadioButton IPCRadioButton = new JRadioButton();
+	private JRadioButton TimeoutRadioButton = new JRadioButton();
+	private JRadioButton IORadioButton = new JRadioButton();
 	
 	/** Button group for details radio buttons */
 	private ButtonGroup buttonGroup = new ButtonGroup();
@@ -131,78 +104,73 @@ public class DetailsPanelH extends JPanel implements ActionListener{
 		this.setLayout(new BorderLayout());
 		JSplitPane splitPaneMainDetail = new JSplitPane();
 		
-		this.cpuRadioButton.setText(Options.getInstance().getResource("cpuLabel.text"));
-		this.cpuRadioButton.addItemListener(new SelectItemListenerRadioButton());
-		this.setFont(this.cpuRadioButton);
-		this.schedulerRadioButton.setText(Options.getInstance().getResource("schedulerLabel.text"));
-		this.schedulerRadioButton.addItemListener(new SelectItemListenerRadioButton());
-		this.setFont(this.schedulerRadioButton);
-		this.userIORadioButton.setText(Options.getInstance().getResource("userIOLabel.text"));
-		this.userIORadioButton.addItemListener(new SelectItemListenerRadioButton());
-		this.setFont(this.userIORadioButton);
-		this.systemIORadioButton.setText(Options.getInstance().getResource("systemIOLabel.text"));
-		this.systemIORadioButton.addItemListener(new SelectItemListenerRadioButton());
-		this.setFont(this.systemIORadioButton);
-		this.concurrencyRadioButton.setText(Options.getInstance().getResource("concurrencyLabel.text"));
-		this.concurrencyRadioButton.addItemListener(new SelectItemListenerRadioButton());	
-		this.setFont(this.concurrencyRadioButton);
-		this.applicationRadioButton.setText(Options.getInstance().getResource("applicationsLabel.text"));
-		this.applicationRadioButton.addItemListener(new SelectItemListenerRadioButton());
-		this.setFont(this.applicationRadioButton);
-		this.commitRadioButton.setText(Options.getInstance().getResource("commitLabel.text"));
-		this.commitRadioButton.addItemListener(new SelectItemListenerRadioButton());		
-		this.setFont(this.commitRadioButton);
-		this.configurationRadioButton.setText(Options.getInstance().getResource("configurationLabel.text"));
-		this.configurationRadioButton.addItemListener(new SelectItemListenerRadioButton());	
-		this.setFont(this.configurationRadioButton);
-		this.administrativeRadioButton.setText(Options.getInstance().getResource("administrativeLabel.text"));
-		this.administrativeRadioButton.addItemListener(new SelectItemListenerRadioButton());	
-		this.setFont(this.administrativeRadioButton);
-		this.networkRadioButton.setText(Options.getInstance().getResource("networkLabel.text"));
-		this.networkRadioButton.addItemListener(new SelectItemListenerRadioButton());		
-		this.setFont(this.networkRadioButton);
-		this.queuningRadioButton.setText(Options.getInstance().getResource("queueningLabel.text"));
-		this.queuningRadioButton.addItemListener(new SelectItemListenerRadioButton());
-		this.setFont(this.queuningRadioButton);
-		this.clusterRadioButton.setText(Options.getInstance().getResource("clusterLabel.text"));
-		this.clusterRadioButton.addItemListener(new SelectItemListenerRadioButton());		
-		this.setFont(this.clusterRadioButton);
-		this.otherRadioButton.setText(Options.getInstance().getResource("otherLabel.text"));
-		this.otherRadioButton.addItemListener(new SelectItemListenerRadioButton());
-		this.setFont(this.otherRadioButton);
-		
-		this.buttonGroup.add(cpuRadioButton);
-		this.buttonGroup.add(schedulerRadioButton);
-		this.buttonGroup.add(userIORadioButton);
-		this.buttonGroup.add(systemIORadioButton);
-		this.buttonGroup.add(concurrencyRadioButton);
-		this.buttonGroup.add(applicationRadioButton);
-		this.buttonGroup.add(commitRadioButton);
-		this.buttonGroup.add(configurationRadioButton);
-		this.buttonGroup.add(administrativeRadioButton);
-		this.buttonGroup.add(networkRadioButton);
-		this.buttonGroup.add(queuningRadioButton);
-		this.buttonGroup.add(clusterRadioButton);
-		this.buttonGroup.add(otherRadioButton);
+		this.CPURadioButton.setText(Options.getInstance().getResource("CPULabel.text"));
+		this.CPURadioButton.addItemListener(new SelectItemListenerRadioButton());
+		this.setFont(this.CPURadioButton);
+
+		this.LWLockRadioButton.setText(Options.getInstance().getResource("LWLockLabel.text"));
+		this.LWLockRadioButton.addItemListener(new SelectItemListenerRadioButton());
+		this.setFont(this.LWLockRadioButton);
+
+		this.LockRadioButton.setText(Options.getInstance().getResource("LockLabel.text"));
+		this.LockRadioButton.addItemListener(new SelectItemListenerRadioButton());
+		this.setFont(this.LockRadioButton);
+
+		this.BufferPinRadioButton.setText(Options.getInstance().getResource("BufferPinLabel.text"));
+		this.BufferPinRadioButton.addItemListener(new SelectItemListenerRadioButton());
+		this.setFont(this.BufferPinRadioButton);
+
+		this.ActivityRadioButton.setText(Options.getInstance().getResource("ActivityLabel.text"));
+		this.ActivityRadioButton.addItemListener(new SelectItemListenerRadioButton());
+		this.setFont(this.ActivityRadioButton);
+
+		this.ExtensionRadioButton.setText(Options.getInstance().getResource("ExtensionLabel.text"));
+		this.ExtensionRadioButton.addItemListener(new SelectItemListenerRadioButton());	
+		this.setFont(this.ExtensionRadioButton);
+
+		this.ClientRadioButton.setText(Options.getInstance().getResource("ClientLabel.text"));
+		this.ClientRadioButton.addItemListener(new SelectItemListenerRadioButton());
+		this.setFont(this.ClientRadioButton);
+
+		this.IPCRadioButton.setText(Options.getInstance().getResource("IPCLabel.text"));
+		this.IPCRadioButton.addItemListener(new SelectItemListenerRadioButton());		
+		this.setFont(this.IPCRadioButton);
+
+		this.TimeoutRadioButton.setText(Options.getInstance().getResource("TimeoutLabel.text"));
+		this.TimeoutRadioButton.addItemListener(new SelectItemListenerRadioButton());	
+		this.setFont(this.TimeoutRadioButton);
+
+		this.IORadioButton.setText(Options.getInstance().getResource("IOLabel.text"));
+		this.IORadioButton.addItemListener(new SelectItemListenerRadioButton());	
+		this.setFont(this.IORadioButton);
+
+		this.buttonGroup.add(CPURadioButton);
+		this.buttonGroup.add(IORadioButton);
+		this.buttonGroup.add(LockRadioButton);
+		this.buttonGroup.add(LWLockRadioButton);
+		this.buttonGroup.add(BufferPinRadioButton);
+		this.buttonGroup.add(ActivityRadioButton);
+		this.buttonGroup.add(ExtensionRadioButton);
+		this.buttonGroup.add(ClientRadioButton);
+		this.buttonGroup.add(IPCRadioButton);
+		this.buttonGroup.add(TimeoutRadioButton);
+
 		
 		/** Button panel fot buttons */
 		this.buttonPanel = new JToolBar("PanelButton");
 		this.buttonPanel.setFloatable(false);
 		this.buttonPanel.setBorder(new EtchedBorder());
 		
-		this.buttonPanel.add(this.cpuRadioButton);
-		this.buttonPanel.add(this.schedulerRadioButton);
-		this.buttonPanel.add(this.userIORadioButton);
-		this.buttonPanel.add(this.systemIORadioButton);
-		this.buttonPanel.add(this.concurrencyRadioButton);
-		this.buttonPanel.add(this.applicationRadioButton);
-		this.buttonPanel.add(this.commitRadioButton);
-		this.buttonPanel.add(this.configurationRadioButton);
-		this.buttonPanel.add(this.administrativeRadioButton);
-		this.buttonPanel.add(this.networkRadioButton);
-		this.buttonPanel.add(this.queuningRadioButton);
-		this.buttonPanel.add(this.clusterRadioButton);
-		this.buttonPanel.add(this.otherRadioButton);
+		this.buttonPanel.add(this.CPURadioButton);
+		this.buttonPanel.add(this.IORadioButton);
+		this.buttonPanel.add(this.LockRadioButton);
+		this.buttonPanel.add(this.LWLockRadioButton);
+		this.buttonPanel.add(this.BufferPinRadioButton);
+		this.buttonPanel.add(this.ActivityRadioButton);
+		this.buttonPanel.add(this.ExtensionRadioButton);
+		this.buttonPanel.add(this.ClientRadioButton);
+		this.buttonPanel.add(this.IPCRadioButton);
+		this.buttonPanel.add(this.TimeoutRadioButton);
 						
 		splitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPaneMainDetail.add(new JPanel(), "top");
@@ -247,44 +215,35 @@ public class DetailsPanelH extends JPanel implements ActionListener{
 			AbstractButton sel = (AbstractButton)e.getItemSelectable();
 			//checkbox select or not
 			if(e.getStateChange() == ItemEvent.SELECTED){
-				if (sel.getText().equals(Options.getInstance().getResource("cpuLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("cpuLabel.text"));
+				if (sel.getText().equals(Options.getInstance().getResource("LWLockLabel.text"))){
+					addChartPanel(Options.getInstance().getResource("LWLockLabel.text"));
 				}
-				else if (sel.getText().equals(Options.getInstance().getResource("schedulerLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("schedulerLabel.text"));
+				else if (sel.getText().equals(Options.getInstance().getResource("CPULabel.text"))){
+					addChartPanel(Options.getInstance().getResource("CPULabel.text"));
 				}
-				else if (sel.getText().equals(Options.getInstance().getResource("userIOLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("userIOLabel.text"));
+				else if (sel.getText().equals(Options.getInstance().getResource("LockLabel.text"))){
+					addChartPanel(Options.getInstance().getResource("LockLabel.text"));
 				}
-				else if (sel.getText().equals(Options.getInstance().getResource("systemIOLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("systemIOLabel.text"));
+				else if (sel.getText().equals(Options.getInstance().getResource("BufferPinLabel.text"))){
+					addChartPanel(Options.getInstance().getResource("BufferPinLabel.text"));
 				}
-				else if (sel.getText().equals(Options.getInstance().getResource("concurrencyLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("concurrencyLabel.text"));
+				else if (sel.getText().equals(Options.getInstance().getResource("ActivityLabel.text"))){
+					addChartPanel(Options.getInstance().getResource("ActivityLabel.text"));
 				}
-				else if (sel.getText().equals(Options.getInstance().getResource("applicationsLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("applicationsLabel.text"));
+				else if (sel.getText().equals(Options.getInstance().getResource("ExtensionLabel.text"))){
+					addChartPanel(Options.getInstance().getResource("ExtensionLabel.text"));
 				}
-				else if (sel.getText().equals(Options.getInstance().getResource("commitLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("commitLabel.text"));
+				else if (sel.getText().equals(Options.getInstance().getResource("ClientLabel.text"))){
+					addChartPanel(Options.getInstance().getResource("ClientLabel.text"));
 				}
-				else if (sel.getText().equals(Options.getInstance().getResource("configurationLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("configurationLabel.text"));
+				else if (sel.getText().equals(Options.getInstance().getResource("IPCLabel.text"))){
+					addChartPanel(Options.getInstance().getResource("IPCLabel.text"));
 				}
-				else if (sel.getText().equals(Options.getInstance().getResource("administrativeLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("administrativeLabel.text"));
+				else if (sel.getText().equals(Options.getInstance().getResource("TimeoutLabel.text"))){
+					addChartPanel(Options.getInstance().getResource("TimeoutLabel.text"));
 				}
-				else if (sel.getText().equals(Options.getInstance().getResource("networkLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("networkLabel.text"));
-				}
-				else if (sel.getText().equals(Options.getInstance().getResource("queueningLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("queueningLabel.text"));
-				}
-				else if (sel.getText().equals(Options.getInstance().getResource("clusterLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("clusterLabel.text"));
-				}
-				else if (sel.getText().equals(Options.getInstance().getResource("otherLabel.text"))){
-					addChartPanel(Options.getInstance().getResource("otherLabel.text"));
+				else if (sel.getText().equals(Options.getInstance().getResource("IOLabel.text"))){
+					addChartPanel(Options.getInstance().getResource("IOLabel.text"));
 				}
 			}
 		}

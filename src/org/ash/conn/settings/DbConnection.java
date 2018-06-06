@@ -21,6 +21,12 @@
  */
 package org.ash.conn.settings;
 
+// for test
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+// for test
+
 /**
  * The Class DbConnection.
  */
@@ -41,9 +47,6 @@ public class DbConnection {
   /** The password. */
   private String password;
   
-  /** The password. */
-  private String edition;
-  
   /**
    * Instantiates a new db connection.
    * 
@@ -58,39 +61,35 @@ public class DbConnection {
       String className,
       String url,
       String username,
-      String password,
-      String edition) {
+      String password) {
     this.name = name;
     this.className = className;
     this.url = url;
     this.username = username;
     this.password = password;
-    this.edition = edition;
   }
   
   /**
-   * Gets the class name of Oracle Driver.
+   * Gets the class name of PostgreSQL Driver.
    * 
    * @param dbType the db type
    * 
    * @return the class name
    */
   public String getClassNameDriverName() {
-	  return "oracle.jdbc.driver.OracleDriver";
+	return "org.postgresql.Driver";
   }
 
   /**
    * Gets the url.
    * 
-   * @param dbType the database type
    * @param host the host
    * @param port the port
-   * @param sid the server id
-   * 
+   *
    * @return the url
    */
-  public String getUrl(String host,String port,String sid) {
-     return "jdbc:oracle:thin:@"+host+":"+port+":"+sid;
+  public String getUrl(String host,String port, String db) {
+	return "jdbc:postgresql://"+host+":"+port+"/"+db;
   }
 
   /**
@@ -99,7 +98,7 @@ public class DbConnection {
    * @return the host
    */
   public String getHost() {
-	  return url.substring(18,url.indexOf(":",18));
+	return url.substring(18,url.indexOf(":",18));
   }
 
   /**
@@ -109,19 +108,15 @@ public class DbConnection {
    */
   public String getPort() {
     int index = url.indexOf(":",18);
-      return url.substring(index+1,url.indexOf(":",index+1));
+      return url.substring(index+1,url.indexOf("/",index+1));
   }
 
-  /**
-   * Gets the Server ID.
-   * 
-   * @return the Server ID
-   */
-  public String getSID() {
-      int index = url.indexOf(":",18);
-      index = url.indexOf(":",index+1);
-      return url.substring(index+1);
+  public String getDB() {
+      int index = url.indexOf("/",18) + 1;
+      return url.substring(index);
+
   }
+
 
   /**
    * Gets the class name.
@@ -169,15 +164,6 @@ public class DbConnection {
   }
 
   /**
-   * Gets the edition.
-   * 
-   * @return the edition
-   */
-  public String getEdition() {
-    return edition;
-  }
-
-  /**
    * Sets the class name.
    * 
    * @param className the new class name
@@ -222,13 +208,4 @@ public class DbConnection {
     this.username = username;
   }
   
-  /**
-   * Sets the edition.
-   * 
-   * @param new edition
-   */
-  public void setEdition(String edition) {
-    this.edition = edition;
-  }
-
 }

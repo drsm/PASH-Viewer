@@ -120,7 +120,8 @@ public class GanttSqls {
 			
 			data[i][1] = me.getKey();
 			//data[i][2] = UNKNOWN;
-			double value = Double.parseDouble((String) me.getValue().get(SQL_TYPE));
+			// double value = Double.parseDouble((String) me.getValue().get(SQL_TYPE));
+			double value = 0.0;
 			data[i][2] = Options.getInstance().getResource(
 					Options.getInstance().getResource(String.valueOf((int) value)));
 
@@ -153,9 +154,8 @@ public class GanttSqls {
 					me.getKey()+":::"+ arraySqlIdText50.get(me.getKey()).trim()+"\n");
 			
 			/** Save arraySqlIdText50 for SQL Text tab*/
-			if (arraySqlIdType50.get(me.getKey()) != "UNKNOWN"){
-			   arraySqlIdText50SQLTextTab.put(ii, me.getKey());
-			}
+			// if (arraySqlIdType50.get(me.getKey()) != "UNKNOWN") { arraySqlIdText50SQLTextTab.put(ii, me.getKey()); }
+			arraySqlIdText50SQLTextTab.put(ii, me.getKey());
 			
 			/** Exit when rows > 500 */
 			if (ii+1==Math.min(sizeGanttTable, sizeMainSqls)){

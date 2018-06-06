@@ -29,7 +29,6 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import oracle.jdbc.OracleResultSet;
 
 /**
  * The Class Model.
@@ -107,106 +106,45 @@ public class Model {
 		}
 	}
 
+	
 	/**
-	 * Sets the trace (10g database).
-	 * 
-	 * @param sid the oracle session id
-	 * @param serial the serial
-	 * @param bool true - enable, false - disable
-	 * 
-	 * @throws SQLException the SQL exception
+	 * Save the version of postgresql.
 	 */
-	public void setTrace(int sid, int serial, boolean bool) throws SQLException {
-		CallableStatement stmt = null; 
-		// Create connection
-		Connection conn = connectionPool.getConnection();
+	private void setVersion() {
+		 
+		String tmpVersion = null;
+
 		try {
-		  if (bool) {	
-			stmt = conn
-					.prepareCall("begin " +
-							"SYS.DBMS_MONITOR." +
-							"session_trace_enable" +
-							"(?,?,true,true); end;");
-		  } else {
-			  stmt = conn
-				.prepareCall("begin " +
-						"SYS.DBMS_MONITOR." +
-						"SESSION_TRACE_DISABLE" +
-						"(?,?); end;");
-		  }
-		  
-			stmt.setInt(1, sid);
-			stmt.setInt(2, serial);
-			stmt.execute();
-			stmt.close();
+			Connection conn = connectionPool.getConnection();
+			tmpVersion = conn.getMetaData().getDatabaseProductVersion().toString();
 
 			if (conn != null) {
 				connectionPool.free(conn);
 			} else {
 				connectionPool.closeAllConnections();
 			}
-			
-		} catch (SQLException ex) {
-			System.out.println("Enable trace: "+ex);
-		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close(); // close the statement
-				}
-			} catch (SQLException ex) {
-			}
-		}
-	}
-	
-	/**
-	 * Save the version of oracle db.
-	 */
-	private void setVersion() {
-		 
-		String tmpVersion = null;
-		 
-			try {
-				Connection conn = connectionPool.getConnection();
-				tmpVersion = 	conn.
-								getMetaData().
-								getDatabaseProductVersion().
-								toString();
-				
-				if (conn != null) {
-					connectionPool.free(conn);
-				} else {
-					connectionPool.closeAllConnections();
-				}
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			if (tmpVersion.substring(6,7).equalsIgnoreCase("8")){
-				setVersionDB("8i");
-			} 
-			else if (tmpVersion.substring(6,7).equalsIgnoreCase("9")){
-				setVersionDB("9i");
-			}
-			else if (tmpVersion.substring(16,18).equalsIgnoreCase("10")){
-				if (tmpVersion.substring(47,51).equalsIgnoreCase("10.1"))
-					setVersionDB("10g1");
-				else {
-					setVersionDB("10g2");
-				}
-			}
-            else if(tmpVersion.substring(16, 18).equalsIgnoreCase("11")) {
-                setVersionDB("11g");
-            }
-            else if(tmpVersion.substring(16, 18).equalsIgnoreCase("12")) {
-                setVersionDB("11g");
-            }
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
+		if (tmpVersion.substring(0,1).equalsIgnoreCase("9")){
+			setVersionDB("9");
+		}
+		else if (tmpVersion.substring(0,2).equalsIgnoreCase("10")){
+			setVersionDB("10");
+		}
+		else if (tmpVersion.substring(0,2).equalsIgnoreCase("11")){
+			setVersionDB("11");
+		}
+		else {
+			setVersionDB("10");
+		}
+
+	}
+
 	/**
-	 * Get the oracle sysdate.
-	 * @return the sysdate
+	 * Get the current_timestamp.
 	 * @throws SQLException the SQL exception
 	 */
 	public Double getSysdate() throws SQLException {
@@ -216,17 +154,13 @@ public class Model {
 			
 			Double valueSampleTime = 0.0;
 			ResultSet retval = null;
-			PreparedStatement stmt = 
-				conn.prepareStatement("SELECT SYSDATE FROM DUAL");
+			PreparedStatement stmt = conn.prepareStatement("select current_timestamp;");
+
 			retval = stmt.executeQuery();
 			
 			while (retval.next()) {
-			
-			oracle.sql.DATE oracleDateSampleTime = 
-				((OracleResultSet) retval).getDATE("SYSDATE");
-			valueSampleTime = (new Long(oracleDateSampleTime
-					.timestampValue().getTime())).doubleValue();
-	
+				java.sql.Timestamp PGDateSampleTime = retval.getTimestamp("current_timestamp");
+				valueSampleTime = (new Long(PGDateSampleTime.getTime())).doubleValue();
 			}
 			
 			stmt.close();
@@ -241,99 +175,6 @@ public class Model {
 			
 		} catch (SQLException e) {
 			throw e;
-		}
-	}
-	
-	
-	/**
-	 * Gets the database parameter (SELECT value FROM v$parameter WHERE name = ?).
-	 * @param parameterName the parameter name
-	 * @return the dB parameter
-	 * @throws SQLException the SQL exception
-	 */
-	public String getParameter(String parameterName) {
-		try {
-	
-			Connection conn = connectionPool.getConnection();
-			
-			String tmpValue = "";
-			ResultSet retval = null;
-			PreparedStatement stmt = 
-				conn.prepareStatement("SELECT value FROM " +
-						"v$parameter WHERE name = ?");
-			stmt.setString(1, parameterName);
-			
-			retval = stmt.executeQuery();
-			
-			while (retval.next()) {
-				tmpValue = retval.getString("VALUE");
-			}
-			
-			stmt.close();
-			
-			if (conn != null) {
-				connectionPool.free(conn);
-			} else {
-				connectionPool.closeAllConnections();
-			}
-			
-			return tmpValue;
-			
-		} catch (SQLException e) {
-			try {
-				throw e;
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-				return "0.0";
-			}
-		}
-	}
-	
-	/**
-	 * Get DBID and instance number for ASH Report
-	 * @param param 0 - get dbid, 1 - get instance number
-	 * @return
-	 */
-	public String getDBIDInstanceNumber(int param) {
-		try {
-	
-			Connection conn = connectionPool.getConnection();
-			
-			Double tmpValue = null;
-			ResultSet retval = null;
-			PreparedStatement stmt = null;
-			
-			if (param==0){
-				stmt = 
-					conn.prepareStatement("SELECT dbid FROM v$database");
-			} else {
-				stmt = 
-					conn.prepareStatement("SELECT instance_number FROM v$instance");
-			}
-			
-			retval = stmt.executeQuery();
-			
-			while (retval.next()) {
-				tmpValue = retval.getDouble(1);
-			}
-			
-			stmt.close();
-			
-			if (conn != null) {
-				connectionPool.free(conn);
-			} else {
-				connectionPool.closeAllConnections();
-			}
-			
-			return tmpValue.toString();
-			
-		} catch (SQLException e) {
-			try {
-				throw e;
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-				return "0.0";
-			}
 		}
 	}
 	

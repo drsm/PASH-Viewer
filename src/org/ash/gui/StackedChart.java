@@ -295,34 +295,18 @@ public class StackedChart {
         thresholdMaxCpu.setLabelPaint(Color.red);
         thresholdMaxCpu.setLabelAnchor(RectangleAnchor.TOP_LEFT);
         thresholdMaxCpu.setLabelTextAnchor(TextAnchor.BOTTOM_LEFT);
-        plot.addRangeMarker(thresholdMaxCpu);
+        // plot.addRangeMarker(thresholdMaxCpu);
         
-        renderer.setSeriesPaint(0, Options.getInstance().getColor(
-        				Options.getInstance().getResource("cpuLabel.text")),true);
-        renderer.setSeriesPaint(1, Options.getInstance().getColor(
-						Options.getInstance().getResource("schedulerLabel.text")), true);
-        renderer.setSeriesPaint(2,Options.getInstance().getColor(
-        				Options.getInstance().getResource("userIOLabel.text")), true);
-        renderer.setSeriesPaint(3, Options.getInstance().getColor(
-						Options.getInstance().getResource("systemIOLabel.text")), true);
-        renderer.setSeriesPaint(4, Options.getInstance().getColor(
-						Options.getInstance().getResource("concurrencyLabel.text")), true);
-        renderer.setSeriesPaint(5, Options.getInstance().getColor(
-						Options.getInstance().getResource("applicationsLabel.text")), true);
-        renderer.setSeriesPaint(6, Options.getInstance().getColor(
-						Options.getInstance().getResource("commitLabel.text")), true);
-        renderer.setSeriesPaint(7, Options.getInstance().getColor(
-						Options.getInstance().getResource("configurationLabel.text")), true);
-        renderer.setSeriesPaint(8, Options.getInstance().getColor(
-						Options.getInstance().getResource("administrativeLabel.text")), true);
-        renderer.setSeriesPaint(9, Options.getInstance().getColor(
-						Options.getInstance().getResource("networkLabel.text")), true);
-        renderer.setSeriesPaint(11, Options.getInstance().getColor(
-						Options.getInstance().getResource("queueningLabel.text")), true);//que
-        renderer.setSeriesPaint(10, Options.getInstance().getColor(
-        				Options.getInstance().getResource("clusterLabel.text")), true);//cluster
-        renderer.setSeriesPaint(12, Options.getInstance().getColor(
-						Options.getInstance().getResource("otherLabel.text")), true);
+        renderer.setSeriesPaint(0, Options.getInstance().getColor(Options.getInstance().getResource("CPULabel.text")),true);
+        renderer.setSeriesPaint(1, Options.getInstance().getColor(Options.getInstance().getResource("IOLabel.text")), true);
+        renderer.setSeriesPaint(2, Options.getInstance().getColor(Options.getInstance().getResource("LockLabel.text")), true);
+        renderer.setSeriesPaint(3, Options.getInstance().getColor(Options.getInstance().getResource("LWLockLabel.text")),true);
+        renderer.setSeriesPaint(4, Options.getInstance().getColor(Options.getInstance().getResource("BufferPinLabel.text")), true);
+        renderer.setSeriesPaint(5, Options.getInstance().getColor(Options.getInstance().getResource("ActivityLabel.text")), true);
+        renderer.setSeriesPaint(6, Options.getInstance().getColor(Options.getInstance().getResource("ExtensionLabel.text")), true);
+        renderer.setSeriesPaint(7, Options.getInstance().getColor(Options.getInstance().getResource("ClientLabel.text")), true);
+        renderer.setSeriesPaint(8, Options.getInstance().getColor(Options.getInstance().getResource("IPCLabel.text")), true);
+        renderer.setSeriesPaint(9, Options.getInstance().getColor(Options.getInstance().getResource("TimeoutLabel.text")), true);
         
         // Set format for x axis
         DateAxis axis = (DateAxis) plot.getDomainAxis();

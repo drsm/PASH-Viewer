@@ -412,7 +412,6 @@ public class CalendarH extends JPanel {
 			this.setStartBDB((long)beginTmp);
 			this.setEndBDB((long)endTmp);
 		} catch (Exception e) {
-			System.out.println("Error on databaseHistory.getMaxMinTimePeriod(0/1) --- CalendarH");
 			noData = true;
 		}
 	}
@@ -445,7 +444,7 @@ public class CalendarH extends JPanel {
 			       	" <br>" +		
 				 "&nbsp;"+ 
 				     "SID: &nbsp;" + "<I>" + 
-				     databaseHistory.getParameter("ASH.sid")  + "</I>" +
+				     databaseHistory.getParameter("ASH.db")  + "</I>" +
 				     " <br>" +		
 				 "&nbsp;"+ 
 				     "Username: &nbsp;" + "<I>" +

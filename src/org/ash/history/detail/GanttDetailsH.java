@@ -46,9 +46,7 @@ import org.ash.history.detail.GanttSessions;
 import org.ash.history.detail.GanttSqls;
 import org.ash.database.ASHDatabase;
 import org.ash.gui.GanttSplitPane;
-import org.ash.gui.SqlPlan;
 import org.ash.history.ASHDatabaseH;
-import org.ash.history.SqlPlanH;
 import org.ash.util.Options;
 import org.ash.util.ProgressBarUtil;
 import org.ash.util.Utils;
@@ -63,6 +61,16 @@ import com.egantt.swing.table.list.BasicJTableList;
 
 import ext.egantt.drawing.painter.context.BasicPainterContext;
 import ext.egantt.swing.GanttTable;
+
+// dcvetkov import
+import org.ash.util.Options;
+import java.io.File;
+import java.nio.file.*;
+import java.io.IOException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import org.syntax.jedit.tokenmarker.PLSQLTokenMarker;
+import org.syntax.jedit.tokenmarker.CTokenMarker;
 
 /**
  * The Class SqlsAndSessionsGantt.
@@ -89,6 +97,10 @@ public class GanttDetailsH extends JPanel{
 	
 	/** SQL text */
 	private JEditTextArea jtextAreaSqlText = Options.getInstance().getJtextAreaSqlTextGanttDetailsH();
+	private JEditTextArea jtextAreaSqlPlan = Options.getInstance().getJtextAreaSqlPlanGanttDetailsH();
+	private String SQLTEXT = "";
+	private String SQLPLAN = "";
+
 	
 	/**
 	 * Constructor Gantt JPanel
@@ -186,17 +198,10 @@ public class GanttDetailsH extends JPanel{
 		// Load data to JTable model
 		try {
 			String sqlIdHash = "";
-			if (this.database.getParameter("ASH.version").equalsIgnoreCase("9i")
-					||this.database.getParameter("ASH.version").equalsIgnoreCase("8i")){
-				sqlIdHash = "Hash Value";
-			} else {
-				sqlIdHash = "SQL ID";
-			}
+			sqlIdHash = "SQL ID";
 			
-			String[][] columnNamesSqls = {
-		    		{"Activity %", sqlIdHash, "SQL Type"}};
-			String[][] columnNamesSessions = {
-		    		{"Activity %", "Session ID", "User Name", "Program"}};
+			String[][] columnNamesSqls = {{"Activity %", sqlIdHash, "SQL Type"}};
+			String[][] columnNamesSessions = {{"Activity %", "PID", "User Name", "Program"}};
 			
 			/** Array SqlIdText for SQL Text tab*/
 			Map<Integer,String> arraySqlIdText50SQLTextTab = new HashMap<Integer, String>();
@@ -212,10 +217,26 @@ public class GanttDetailsH extends JPanel{
 			setTooltipAndPercent(tableGanttSessions);
 			
 			/** Left tabbed pane (Top SQL + SQL text)*/
-			JTabbedPane tabsTopSQLText = new JTabbedPane();
-			
-			SqlPlanH sqlPlan = new SqlPlanH(database);
-			
+			final JTabbedPane tabsTopSQLText = new JTabbedPane();
+
+			// dcvetkov - add listener for tabbed pane
+			tabsTopSQLText.addChangeListener(new ChangeListener() {
+			        public void stateChanged(ChangeEvent e) {
+					if(tabsTopSQLText.getSelectedIndex()==1) {
+						jtextAreaSqlText.setTokenMarker(new PLSQLTokenMarker());
+						jtextAreaSqlText.setEditable(false);
+						jtextAreaSqlText.setText(SQLTEXT);
+					}
+					else if(tabsTopSQLText.getSelectedIndex()==2) {
+						jtextAreaSqlText.setTokenMarker(new CTokenMarker());
+						jtextAreaSqlText.setEditable(false);
+						jtextAreaSqlText.setText(SQLPLAN);
+					}
+					jtextAreaSqlText.setCaretPosition(0);
+					jtextAreaSqlText.updateUI();
+			        }
+			});
+
 			/** Top SQL pane*/
 			JScrollPane leftPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -237,15 +258,12 @@ public class GanttDetailsH extends JPanel{
 			/** Add component to left tabs*/
 			tabsTopSQLText.add(leftPane,Options.getInstance().getResource("tabTopSQL.text"));
 			tabsTopSQLText.add(jtextAreaSqlText,Options.getInstance().getResource("tabSQLText.text"));
-			tabsTopSQLText.add(sqlPlan, Options.getInstance().getResource("tabSQLPlan.text"));
+			tabsTopSQLText.add(jtextAreaSqlPlan, Options.getInstance().getResource("tabSQLPlan.text"));
 			tabsTopSQLText.setEnabledAt(1, false);
 			tabsTopSQLText.setEnabledAt(2, false);
 			
 			/** Add selection listener for table model*/
-			SelectionListener listener = 
-				new SelectionListener(
-						tableGanttSql.getJTable(), tabsTopSQLText,
-						jtextAreaSqlText, arraySqlIdText50SQLTextTab, sqlPlan, database);
+			SelectionListener listener = new SelectionListener(tableGanttSql.getJTable(), tabsTopSQLText, jtextAreaSqlText, jtextAreaSqlPlan, arraySqlIdText50SQLTextTab, database);
 			tableGanttSql.getJTable().getSelectionModel().addListSelectionListener(listener);
 			
 			/** Layout components*/
@@ -271,19 +289,19 @@ public class GanttDetailsH extends JPanel{
 		JTable table;
 		JTabbedPane tabbedpane;
 		JEditTextArea sqlTextArea;
+		JEditTextArea sqlPlanArea;
 		Map<Integer, String> arraySqlIdText50SQLTextTab;
-		SqlPlanH sqlPlan;
 		ASHDatabaseH database;
 		
 		SelectionListener(JTable table, JTabbedPane tabbedpane,
-				JEditTextArea sqlTextArea,
+				JEditTextArea sqlTextArea, JEditTextArea sqlPlanArea,
 				Map<Integer, String> arraySqlIdText50SQLTextTab,
-				SqlPlanH sqlPlan, ASHDatabaseH database) {
+				ASHDatabaseH database) {
 			this.table = table;
 			this.tabbedpane = tabbedpane;
 			this.sqlTextArea = sqlTextArea;
+			this.sqlPlanArea = sqlPlanArea;
 			this.arraySqlIdText50SQLTextTab = arraySqlIdText50SQLTextTab;
-			this.sqlPlan = sqlPlan;
 			this.database = database;
 		}
 
@@ -329,43 +347,42 @@ public class GanttDetailsH extends JPanel{
 			// Load formatted sql text
 			if (sqlText != null && sqlText != "") {
 				tabbedpane.setEnabledAt(1, true);
-
 				try {
-					sqlTextArea.setText(Utils.formatSqlAll(sqlText)
-							.toString());
-					sqlTextArea.setCaretPosition(0);
-					sqlTextArea.updateUI();
+					SQLTEXT = Utils.formatSqlAll(sqlText).toString();
 				} catch (Exception e1) {
-					sqlTextArea
-							.setText("Error in syntax highlighting of sql!");
+					SQLTEXT = sqlText;
 				}
 			} else {
 				tabbedpane.setEnabledAt(1, false);
 				sqlTextArea.setText("");
-			}			
+			}
 
 			// Load sql plan's for sql_id
 			if (sqlType.equalsIgnoreCase("SELECT")
 					|| sqlType.equalsIgnoreCase("INSERT")
 					|| sqlType.equalsIgnoreCase("UPDATE")
-					|| sqlType.equalsIgnoreCase("DELETE")
-					|| sqlType.equalsIgnoreCase("MERGE")
-					|| sqlType.equalsIgnoreCase("UNKNOWN")
-					|| (sqlType == "" && sqlType != null)) {
+					|| sqlType.equalsIgnoreCase("DELETE")) {
 				tabbedpane.setEnabledAt(2, true);
 				try {
-					sqlPlan.loadSqlPlan(sqlId, true);
+					// dcvetkov - load plan from file
+					String FILESEPARATOR = System.getProperty("file.separator");
+					Path planFileName = Paths.get(Options.getInstance().getPlanDir() + FILESEPARATOR + sqlId + ".plan");
+					if (Files.exists(planFileName)) {
+						byte[] planBytes = Files.readAllBytes(planFileName);
+						String plan = new String(planBytes);
+						SQLPLAN = plan;
+					} else {
+						SQLPLAN = "";
+					}
 				} catch (Exception e1) {
-					System.out.println("SQL Exception occured: "
-							+ e1.getMessage()+e1.getStackTrace());
-					e1.printStackTrace();
+					System.out.println("Exception occured: " + e1.getMessage());
 				}
 			} else {
 				tabbedpane.setEnabledAt(2, false);
 			}
 			
 			tabbedpane.setComponentAt(1, sqlTextArea);
-			tabbedpane.setComponentAt(2, sqlPlan);			
+			tabbedpane.setComponentAt(2, sqlPlanArea);
 		}
 	}
 	
@@ -397,13 +414,9 @@ public class GanttDetailsH extends JPanel{
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							try {
-								sqlTextArea.setText(
-										Utils.formatSqlAll(sqlText).toString());
-								sqlTextArea.setCaretPosition(0);
-								sqlTextArea.updateUI();
+								SQLTEXT = Utils.formatSqlAll(sqlText).toString();
 							} catch (Exception e) {
-								sqlTextArea.setText(
-										"Error in syntax highlighting of sql!");
+								SQLTEXT = "Error in syntax highlighting of sql!";
 							}
 						}
 					});

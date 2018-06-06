@@ -50,162 +50,54 @@ public class DetailPanels extends JPanel{
 	/** The tabbed pane */
 	private JTabbedPane tabsDetail;
 	
-	/** The stacked chart main object for cpu. */
-	private StackedChartDetail cpuStackedChartMainObjectDetail;
+	/** The stacked chart main object for Wait Types */
+	private StackedChartDetail CPUStackedChartMainObjectDetail;
+	private StackedChartDetail LWLockStackedChartMainObjectDetail;
+	private StackedChartDetail LockStackedChartMainObjectDetail;
+	private StackedChartDetail BufferPinStackedChartMainObjectDetail;
+	private StackedChartDetail ActivityStackedChartMainObjectDetail;
+	private StackedChartDetail ExtensionStackedChartMainObjectDetail;
+	private StackedChartDetail ClientStackedChartMainObjectDetail;
+	private StackedChartDetail IPCStackedChartMainObjectDetail;
+	private StackedChartDetail TimeoutStackedChartMainObjectDetail;
+	private StackedChartDetail IOStackedChartMainObjectDetail;
 	
-	/** The stacked chart main object for scheduler. */
-	private StackedChartDetail schedulerStackedChartMainObjectDetail;
+	/** The split pane main for Wait Types */
+	private JSplitPane CPUSplitPaneMainDetail;
+	private JSplitPane LWLockSplitPaneMainDetail;
+	private JSplitPane LockSplitPaneMainDetail;
+	private JSplitPane BufferPinSplitPaneMainDetail;
+	private JSplitPane ActivitySplitPaneMainDetail;
+	private JSplitPane ExtensionSplitPaneMainDetail;
+	private JSplitPane ClientSplitPaneMainDetail;
+	private JSplitPane IPCSplitPaneMainDetail;
+	private JSplitPane TimeoutSplitPaneMainDetail;
+	private JSplitPane IOSplitPaneMainDetail;
 	
-	/** The stacked chart main object for userIO. */
-	private StackedChartDetail userIOStackedChartMainObjectDetail;
+	/** The chart chart panel for Wait Types */
+	private ChartPanel CPUChartPanel;
+	private ChartPanel LWLockChartPanel;
+	private ChartPanel LockChartPanel;
+	private ChartPanel BufferPinChartPanel;
+	private ChartPanel ActivityChartPanel;
+	private ChartPanel ExtensionChartPanel;
+	private ChartPanel ClientChartPanel;
+	private ChartPanel IPCChartPanel;
+	private ChartPanel TimeoutChartPanel;
+	private ChartPanel IOChartPanel;
 	
-	/** The stacked chart main object for systemIO. */
-	private StackedChartDetail systemIOStackedChartMainObjectDetail;
-	
-	/** The stacked chart main object for concurrency. */
-	private StackedChartDetail concurrencyStackedChartMainObjectDetail;
-	
-	/** The stacked chart main object for application. */
-	private StackedChartDetail applicationStackedChartMainObjectDetail;
-	
-	/** The stacked chart main object for commit. */
-	private StackedChartDetail commitStackedChartMainObjectDetail;
-	
-	/** The stacked chart main object for configuration. */
-	private StackedChartDetail configurationStackedChartMainObjectDetail;
-	
-	/** The stacked chart main object for administrative. */
-	private StackedChartDetail administrativeStackedChartMainObjectDetail;
-	
-	/** The stacked chart main object for network. */
-	private StackedChartDetail networkStackedChartMainObjectDetail;
-	
-	/** The stacked chart main object for queuning. */
-	private StackedChartDetail queuningStackedChartMainObjectDetail;
-	
-	/** The stacked chart main object for cluster. */
-	private StackedChartDetail clusterStackedChartMainObjectDetail;
-	
-	/** The stacked chart main object for other. */
-	private StackedChartDetail otherStackedChartMainObjectDetail;
-	
-	/** The split pane main for cpu. */
-	private JSplitPane cpuSplitPaneMainDetail;
-	
-	/** The split pane for scheduler. */
-	private JSplitPane schedulerSplitPaneMainDetail;
-	
-	/** The split pane for userIO. */
-	private JSplitPane userIOSplitPaneMainDetail;
-	
-	/** The split pane for systemIO. */
-	private JSplitPane systemIOSplitPaneMainDetail;
-	
-	/** The split pane for concurrency. */
-	private JSplitPane concurrencySplitPaneMainDetail;
-	
-	/** The split pane for application. */
-	private JSplitPane applicationSplitPaneMainDetail;
-	
-	/** The split pane for commit. */
-	private JSplitPane commitSplitPaneMainDetail;
-	
-	/** The split pane for configuration. */
-	private JSplitPane configurationSplitPaneMainDetail;
-	
-	/** The split pane for administrative. */
-	private JSplitPane administrativeSplitPaneMainDetail;
-	
-	/** The split pane for network. */
-	private JSplitPane networkSplitPaneMainDetail;
-	
-	/** The split pane for queuning. */
-	private JSplitPane queuningSplitPaneMainDetail;
-	
-	/** The split pane for cluster. */
-	private JSplitPane clusterSplitPaneMainDetail;
-	
-	/** The split pane for other. */
-	private JSplitPane otherSplitPaneMainDetail;
-	
-	/** The chart chart panel for cpu. */
-	private ChartPanel cpuChartPanel;
-	
-	/** The chart chart panel for scheduler. */
-	private ChartPanel schedulerChartPanel;
-	
-	/** The chart chart panel for userIO. */
-	private ChartPanel userIOChartPanel;
-	
-	/** The chart chart panel for systemIO. */
-	private ChartPanel systemIOChartPanel;
-	
-	/** The chart chart panel for concurrency. */
-	private ChartPanel concurrencyChartPanel;
-	
-	/** The chart chart panel for application. */
-	private ChartPanel applicationChartPanel;
-	
-	/** The chart chart panel for commit. */
-	private ChartPanel commitChartPanel;
-	
-	/** The chart chart panel for configuration. */
-	private ChartPanel configurationChartPanel;
-	
-	/** The chart chart panel for administrative. */
-	private ChartPanel administrativeChartPanel;
-	
-	/** The chart chart panel for network. */
-	private ChartPanel networkChartPanel;
-	
-	/** The chart chart panel for queuning. */
-	private ChartPanel queuningChartPanel;
-	
-	/** The chart chart panel for cluster. */
-	private ChartPanel clusterChartPanel;
-	
-	/** The chart chart panel for other. */
-	private ChartPanel otherChartPanel;
-	
-	/** The top sqls and sessions for cpu. */
-	private GanttDetails cpuSqlsAndSessions;
-	
-	/** The top sqls and sessions for scheduler. */
-	private GanttDetails schedulerSqlsAndSessions;
-	
-	/** The top sqls and sessions for userIO. */
-	private GanttDetails userIOSqlsAndSessions;
-	
-	/** The top sqls and sessions for systemIO. */
-	private GanttDetails systemIOSqlsAndSessions;
-	
-	/** The top sqls and sessions for concurrency. */
-	private GanttDetails concurrencySqlsAndSessions;
-	
-	/** The top sqls and sessions for application. */
-	private GanttDetails applicationSqlsAndSessions;
-	
-	/** The top sqls and sessions for commit. */
-	private GanttDetails commitSqlsAndSessions;
-	
-	/** The top sqls and sessions for configuration. */
-	private GanttDetails configurationSqlsAndSessions;
-	
-	/** The top sqls and sessions for administrative. */
-	private GanttDetails administrativeSqlsAndSessions;
-	
-	/** The top sqls and sessions for network. */
-	private GanttDetails networkSqlsAndSessions;
-	
-	/** The top sqls and sessions for queuning. */
-	private GanttDetails queuningSqlsAndSessions;
-	
-	/** The top sqls and sessions for cluster. */
-	private GanttDetails clusterSqlsAndSessions;
-	
-	/** The top sqls and sessions for other. */
-	private GanttDetails otherSqlsAndSessions;
-		
+	/** The top sqls and sessions for Wait Types. */
+	private GanttDetails CPUSqlsAndSessions;
+	private GanttDetails LWLockSqlsAndSessions;
+	private GanttDetails LockSqlsAndSessions;
+	private GanttDetails BufferPinSqlsAndSessions;
+	private GanttDetails ActivitySqlsAndSessions;
+	private GanttDetails ExtensionSqlsAndSessions;
+	private GanttDetails ClientSqlsAndSessions;
+	private GanttDetails IPCSqlsAndSessions;
+	private GanttDetails TimeoutSqlsAndSessions;
+	private GanttDetails IOSqlsAndSessions;
+
 	 /** The status bar. */
     private StatusBar statusBar;
 	
@@ -228,32 +120,16 @@ public class DetailPanels extends JPanel{
 		this.statusBar = statusBar0;
 		this.tabsDetail = new JTabbedPane();
 		
-		this.cpuStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("cpuLabel.text"));
-		this.schedulerStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("schedulerLabel.text"));
-		this.userIOStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("userIOLabel.text"));
-		this.systemIOStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("systemIOLabel.text"));	
-		this.concurrencyStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("concurrencyLabel.text"));	
-		this.applicationStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("applicationsLabel.text"));	
-		this.commitStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("commitLabel.text"));
-		this.configurationStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("configurationLabel.text"));
-		this.administrativeStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("administrativeLabel.text"));
-		this.networkStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("networkLabel.text"));
-		this.queuningStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("queueningLabel.text"));
-		this.clusterStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("clusterLabel.text"));
-		this.otherStackedChartMainObjectDetail = new StackedChartDetail
-			(this.database, Options.getInstance().getResource("otherLabel.text"));
+		this.CPUStackedChartMainObjectDetail = new StackedChartDetail (this.database, Options.getInstance().getResource("CPULabel.text"));
+		this.IOStackedChartMainObjectDetail = new StackedChartDetail (this.database, Options.getInstance().getResource("IOLabel.text"));
+		this.LockStackedChartMainObjectDetail = new StackedChartDetail (this.database, Options.getInstance().getResource("LockLabel.text"));
+		this.LWLockStackedChartMainObjectDetail = new StackedChartDetail (this.database, Options.getInstance().getResource("LWLockLabel.text"));
+		this.BufferPinStackedChartMainObjectDetail = new StackedChartDetail (this.database, Options.getInstance().getResource("BufferPinLabel.text"));
+		this.ActivityStackedChartMainObjectDetail = new StackedChartDetail (this.database, Options.getInstance().getResource("ActivityLabel.text"));	
+		this.ExtensionStackedChartMainObjectDetail = new StackedChartDetail (this.database, Options.getInstance().getResource("ExtensionLabel.text"));	
+		this.ClientStackedChartMainObjectDetail = new StackedChartDetail (this.database, Options.getInstance().getResource("ClientLabel.text"));	
+		this.IPCStackedChartMainObjectDetail = new StackedChartDetail (this.database, Options.getInstance().getResource("IPCLabel.text"));
+		this.TimeoutStackedChartMainObjectDetail = new StackedChartDetail (this.database, Options.getInstance().getResource("TimeoutLabel.text"));
 		
 		this.initialize();
 	}
@@ -266,194 +142,132 @@ public class DetailPanels extends JPanel{
 		this.setLayout(new BorderLayout());
 		this.setVisible(true);
 		
-		this.cpuSplitPaneMainDetail = new JSplitPane();
-		this.schedulerSplitPaneMainDetail = new JSplitPane();
-		this.userIOSplitPaneMainDetail = new JSplitPane();
-		this.systemIOSplitPaneMainDetail = new JSplitPane();
-		this.concurrencySplitPaneMainDetail = new JSplitPane();
-		this.applicationSplitPaneMainDetail = new JSplitPane();
-		this.commitSplitPaneMainDetail = new JSplitPane();
-		this.configurationSplitPaneMainDetail = new JSplitPane();
-		this.administrativeSplitPaneMainDetail = new JSplitPane();
-		this.networkSplitPaneMainDetail = new JSplitPane();
-		this.queuningSplitPaneMainDetail = new JSplitPane();
-		this.clusterSplitPaneMainDetail = new JSplitPane();
-		this.otherSplitPaneMainDetail = new JSplitPane();
+		this.CPUSplitPaneMainDetail = new JSplitPane();
+		this.LWLockSplitPaneMainDetail = new JSplitPane();
+		this.LockSplitPaneMainDetail = new JSplitPane();
+		this.BufferPinSplitPaneMainDetail = new JSplitPane();
+		this.ActivitySplitPaneMainDetail = new JSplitPane();
+		this.ExtensionSplitPaneMainDetail = new JSplitPane();
+		this.ClientSplitPaneMainDetail = new JSplitPane();
+		this.IPCSplitPaneMainDetail = new JSplitPane();
+		this.TimeoutSplitPaneMainDetail = new JSplitPane();
+		this.IOSplitPaneMainDetail = new JSplitPane();
 		
-		this.cpuChartPanel = this.cpuStackedChartMainObjectDetail.createChartPanel();
-		this.schedulerChartPanel = this.schedulerStackedChartMainObjectDetail.createChartPanel();
-		this.userIOChartPanel = this.userIOStackedChartMainObjectDetail.createChartPanel();
-		this.systemIOChartPanel = this.systemIOStackedChartMainObjectDetail.createChartPanel();
-		this.concurrencyChartPanel = this.concurrencyStackedChartMainObjectDetail.createChartPanel();
-		this.applicationChartPanel = this.applicationStackedChartMainObjectDetail.createChartPanel();
-		this.commitChartPanel = this.commitStackedChartMainObjectDetail.createChartPanel();
-		this.configurationChartPanel = this.configurationStackedChartMainObjectDetail.createChartPanel();
-		this.administrativeChartPanel = this.administrativeStackedChartMainObjectDetail.createChartPanel();
-		this.networkChartPanel = this.networkStackedChartMainObjectDetail.createChartPanel();
-		this.queuningChartPanel = this.queuningStackedChartMainObjectDetail.createChartPanel();
-		this.clusterChartPanel = this.clusterStackedChartMainObjectDetail.createChartPanel();
-		this.otherChartPanel = this.otherStackedChartMainObjectDetail.createChartPanel();
+		this.CPUChartPanel = this.CPUStackedChartMainObjectDetail.createChartPanel();
+		this.LWLockChartPanel = this.LWLockStackedChartMainObjectDetail.createChartPanel();
+		this.LockChartPanel = this.LockStackedChartMainObjectDetail.createChartPanel();
+		this.BufferPinChartPanel = this.BufferPinStackedChartMainObjectDetail.createChartPanel();
+		this.ActivityChartPanel = this.ActivityStackedChartMainObjectDetail.createChartPanel();
+		this.ExtensionChartPanel = this.ExtensionStackedChartMainObjectDetail.createChartPanel();
+		this.ClientChartPanel = this.ClientStackedChartMainObjectDetail.createChartPanel();
+		this.IPCChartPanel = this.IPCStackedChartMainObjectDetail.createChartPanel();
+		this.TimeoutChartPanel = this.TimeoutStackedChartMainObjectDetail.createChartPanel();
+		this.IOChartPanel = this.IOStackedChartMainObjectDetail.createChartPanel();
 		
 		/** Gantt graph */
-		this.cpuSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("cpuLabel.text"));
-		this.schedulerSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("schedulerLabel.text"));
-		this.userIOSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("userIOLabel.text"));
-		this.systemIOSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("systemIOLabel.text"));
-		this.concurrencySqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("concurrencyLabel.text"));
-		this.applicationSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("applicationsLabel.text"));
-		this.commitSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("commitLabel.text"));
-		this.configurationSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("configurationLabel.text"));
-		this.administrativeSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("administrativeLabel.text"));
-		this.networkSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("networkLabel.text"));
-		this.queuningSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("queueningLabel.text"));
-		this.clusterSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("clusterLabel.text"));
-		this.otherSqlsAndSessions = new GanttDetails(this.mainFrame, this.database,
-				Options.getInstance().getResource("otherLabel.text"));
+		this.CPUSqlsAndSessions = new GanttDetails(this.mainFrame, this.database, Options.getInstance().getResource("CPULabel.text"));
+		this.LWLockSqlsAndSessions = new GanttDetails(this.mainFrame, this.database, Options.getInstance().getResource("LWLockLabel.text"));
+		this.LockSqlsAndSessions = new GanttDetails(this.mainFrame, this.database, Options.getInstance().getResource("LockLabel.text"));
+		this.BufferPinSqlsAndSessions = new GanttDetails(this.mainFrame, this.database, Options.getInstance().getResource("BufferPinLabel.text"));
+		this.ActivitySqlsAndSessions = new GanttDetails(this.mainFrame, this.database, Options.getInstance().getResource("ActivityLabel.text"));
+		this.ExtensionSqlsAndSessions = new GanttDetails(this.mainFrame, this.database, Options.getInstance().getResource("ExtensionLabel.text"));
+		this.ClientSqlsAndSessions = new GanttDetails(this.mainFrame, this.database, Options.getInstance().getResource("ClientLabel.text"));
+		this.IPCSqlsAndSessions = new GanttDetails(this.mainFrame, this.database, Options.getInstance().getResource("IPCLabel.text"));
+		this.TimeoutSqlsAndSessions = new GanttDetails(this.mainFrame, this.database, Options.getInstance().getResource("TimeoutLabel.text"));
+		this.IOSqlsAndSessions = new GanttDetails(this.mainFrame, this.database, Options.getInstance().getResource("IOLabel.text"));
 		
-		this.cpuSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.cpuSplitPaneMainDetail.add(this.cpuChartPanel, "top");
-		this.cpuSplitPaneMainDetail.add(this.cpuSqlsAndSessions, "bottom");
-		this.cpuSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.cpuSplitPaneMainDetail.setOneTouchExpandable(true);
+		this.CPUSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.CPUSplitPaneMainDetail.add(this.CPUChartPanel, "top");
+		this.CPUSplitPaneMainDetail.add(this.CPUSqlsAndSessions, "bottom");
+		this.CPUSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
+		this.CPUSplitPaneMainDetail.setOneTouchExpandable(true);
+
+		this.IOSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.IOSplitPaneMainDetail.add(this.IOChartPanel, "top");
+		this.IOSplitPaneMainDetail.add(this.IOSqlsAndSessions, "bottom");
+		this.IOSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
+		this.IOSplitPaneMainDetail.setOneTouchExpandable(true);
+
+		this.LockSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.LockSplitPaneMainDetail.add(this.LockChartPanel, "top");
+		this.LockSplitPaneMainDetail.add(this.LockSqlsAndSessions, "bottom");
+		this.LockSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
+		this.LockSplitPaneMainDetail.setOneTouchExpandable(true);
+
+		this.LWLockSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.LWLockSplitPaneMainDetail.add(this.LWLockChartPanel, "top");
+		this.LWLockSplitPaneMainDetail.add(this.LWLockSqlsAndSessions, "bottom");
+		this.LWLockSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
+		this.LWLockSplitPaneMainDetail.setOneTouchExpandable(true);
+	
+		this.BufferPinSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.BufferPinSplitPaneMainDetail.add(this.BufferPinChartPanel, "top");
+		this.BufferPinSplitPaneMainDetail.add(this.BufferPinSqlsAndSessions, "bottom");
+		this.BufferPinSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
+		this.BufferPinSplitPaneMainDetail.setOneTouchExpandable(true);
 		
-		this.schedulerSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.schedulerSplitPaneMainDetail.add(this.schedulerChartPanel, "top");
-		this.schedulerSplitPaneMainDetail.add(this.schedulerSqlsAndSessions, "bottom");
-		this.schedulerSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.schedulerSplitPaneMainDetail.setOneTouchExpandable(true);
+		this.ActivitySplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.ActivitySplitPaneMainDetail.add(this.ActivityChartPanel, "top");
+		this.ActivitySplitPaneMainDetail.add(this.ActivitySqlsAndSessions, "bottom");
+		this.ActivitySplitPaneMainDetail.setDividerLocation(this.dividerLocation);
+		this.ActivitySplitPaneMainDetail.setOneTouchExpandable(true);
 		
-		this.userIOSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.userIOSplitPaneMainDetail.add(this.userIOChartPanel, "top");
-		this.userIOSplitPaneMainDetail.add(this.userIOSqlsAndSessions, "bottom");
-		this.userIOSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.userIOSplitPaneMainDetail.setOneTouchExpandable(true);
+		this.ExtensionSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.ExtensionSplitPaneMainDetail.add(this.ExtensionChartPanel, "top");
+		this.ExtensionSplitPaneMainDetail.add(this.ExtensionSqlsAndSessions, "bottom");
+		this.ExtensionSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
+		this.ExtensionSplitPaneMainDetail.setOneTouchExpandable(true);
 		
-		this.systemIOSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.systemIOSplitPaneMainDetail.add(this.systemIOChartPanel, "top");
-		this.systemIOSplitPaneMainDetail.add(this.systemIOSqlsAndSessions, "bottom");
-		this.systemIOSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.systemIOSplitPaneMainDetail.setOneTouchExpandable(true);
+		this.ClientSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.ClientSplitPaneMainDetail.add(this.ClientChartPanel, "top");
+		this.ClientSplitPaneMainDetail.add(this.ClientSqlsAndSessions, "bottom");
+		this.ClientSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
+		this.ClientSplitPaneMainDetail.setOneTouchExpandable(true);
 		
-		this.concurrencySplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.concurrencySplitPaneMainDetail.add(this.concurrencyChartPanel, "top");
-		this.concurrencySplitPaneMainDetail.add(this.concurrencySqlsAndSessions, "bottom");
-		this.concurrencySplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.concurrencySplitPaneMainDetail.setOneTouchExpandable(true);
+		this.IPCSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.IPCSplitPaneMainDetail.add(this.IPCChartPanel, "top");
+		this.IPCSplitPaneMainDetail.add(this.IPCSqlsAndSessions, "bottom");
+		this.IPCSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
+		this.IPCSplitPaneMainDetail.setOneTouchExpandable(true);
 		
-		this.applicationSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.applicationSplitPaneMainDetail.add(this.applicationChartPanel, "top");
-		this.applicationSplitPaneMainDetail.add(this.applicationSqlsAndSessions, "bottom");
-		this.applicationSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.applicationSplitPaneMainDetail.setOneTouchExpandable(true);
+		this.TimeoutSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.TimeoutSplitPaneMainDetail.add(this.TimeoutChartPanel, "top");
+		this.TimeoutSplitPaneMainDetail.add(this.TimeoutSqlsAndSessions, "bottom");
+		this.TimeoutSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
+		this.TimeoutSplitPaneMainDetail.setOneTouchExpandable(true);
 		
-		this.commitSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.commitSplitPaneMainDetail.add(this.commitChartPanel, "top");
-		this.commitSplitPaneMainDetail.add(this.commitSqlsAndSessions, "bottom");
-		this.commitSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.commitSplitPaneMainDetail.setOneTouchExpandable(true);
+		this.tabsDetail.add(this.CPUSplitPaneMainDetail, Options.getInstance().getResource("CPULabel.text"));
+		this.tabsDetail.add(this.IOSplitPaneMainDetail, Options.getInstance().getResource("IOLabel.text"));
+		this.tabsDetail.add(this.LockSplitPaneMainDetail, Options.getInstance().getResource("LockLabel.text"));
+		this.tabsDetail.add(this.LWLockSplitPaneMainDetail, Options.getInstance().getResource("LWLockLabel.text"));
+		this.tabsDetail.add(this.BufferPinSplitPaneMainDetail, Options.getInstance().getResource("BufferPinLabel.text"));
+		this.tabsDetail.add(this.ActivitySplitPaneMainDetail, Options.getInstance().getResource("ActivityLabel.text"));
+		this.tabsDetail.add(this.ExtensionSplitPaneMainDetail, Options.getInstance().getResource("ExtensionLabel.text"));
+		this.tabsDetail.add(this.ClientSplitPaneMainDetail, Options.getInstance().getResource("ClientLabel.text"));
+		this.tabsDetail.add(this.IPCSplitPaneMainDetail, Options.getInstance().getResource("IPCLabel.text"));
+		this.tabsDetail.add(this.TimeoutSplitPaneMainDetail, Options.getInstance().getResource("TimeoutLabel.text"));
 		
-		this.configurationSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.configurationSplitPaneMainDetail.add(this.configurationChartPanel, "top");
-		this.configurationSplitPaneMainDetail.add(this.configurationSqlsAndSessions, "bottom");
-		this.configurationSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.configurationSplitPaneMainDetail.setOneTouchExpandable(true);
+		this.CPUChartPanel.addListenerReleaseMouse(this.CPUSqlsAndSessions);
+		this.LWLockChartPanel.addListenerReleaseMouse(this.LWLockSqlsAndSessions);
+		this.LockChartPanel.addListenerReleaseMouse(this.LockSqlsAndSessions);
+		this.BufferPinChartPanel.addListenerReleaseMouse(this.BufferPinSqlsAndSessions);
+		this.ActivityChartPanel.addListenerReleaseMouse(this.ActivitySqlsAndSessions);
+		this.ExtensionChartPanel.addListenerReleaseMouse(this.ExtensionSqlsAndSessions);
+		this.ClientChartPanel.addListenerReleaseMouse(this.ClientSqlsAndSessions);
+		this.IPCChartPanel.addListenerReleaseMouse(this.IPCSqlsAndSessions);
+		this.TimeoutChartPanel.addListenerReleaseMouse(this.TimeoutSqlsAndSessions);
+		this.IOChartPanel.addListenerReleaseMouse(this.IOSqlsAndSessions);
 		
-		this.administrativeSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.administrativeSplitPaneMainDetail.add(this.administrativeChartPanel, "top");
-		this.administrativeSplitPaneMainDetail.add(this.administrativeSqlsAndSessions, "bottom");
-		this.administrativeSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.administrativeSplitPaneMainDetail.setOneTouchExpandable(true);
-		
-		this.networkSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.networkSplitPaneMainDetail.add(this.networkChartPanel, "top");
-		this.networkSplitPaneMainDetail.add(this.networkSqlsAndSessions, "bottom");
-		this.networkSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.networkSplitPaneMainDetail.setOneTouchExpandable(true);
-		
-		this.queuningSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.queuningSplitPaneMainDetail.add(this.queuningChartPanel, "top");
-		this.queuningSplitPaneMainDetail.add(this.queuningSqlsAndSessions, "bottom");
-		this.queuningSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.queuningSplitPaneMainDetail.setOneTouchExpandable(true);
-		
-		this.clusterSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.clusterSplitPaneMainDetail.add(this.clusterChartPanel, "top");
-		this.clusterSplitPaneMainDetail.add(this.clusterSqlsAndSessions, "bottom");
-		this.clusterSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.clusterSplitPaneMainDetail.setOneTouchExpandable(true);
-		
-		this.otherSplitPaneMainDetail.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		this.otherSplitPaneMainDetail.add(this.otherChartPanel, "top");
-		this.otherSplitPaneMainDetail.add(this.otherSqlsAndSessions, "bottom");
-		this.otherSplitPaneMainDetail.setDividerLocation(this.dividerLocation);
-		this.otherSplitPaneMainDetail.setOneTouchExpandable(true);
-		
-		this.tabsDetail.add(this.cpuSplitPaneMainDetail,
-				Options.getInstance().getResource("cpuLabel.text"));
-		this.tabsDetail.add(this.schedulerSplitPaneMainDetail,
-				Options.getInstance().getResource("schedulerLabel.text"));
-		this.tabsDetail.add(this.userIOSplitPaneMainDetail,
-				Options.getInstance().getResource("userIOLabel.text"));
-		this.tabsDetail.add(this.systemIOSplitPaneMainDetail,
-				Options.getInstance().getResource("systemIOLabel.text"));
-		this.tabsDetail.add(this.concurrencySplitPaneMainDetail,
-				Options.getInstance().getResource("concurrencyLabel.text"));
-		this.tabsDetail.add(this.applicationSplitPaneMainDetail,
-				Options.getInstance().getResource("applicationsLabel.text"));
-		this.tabsDetail.add(this.commitSplitPaneMainDetail,
-				Options.getInstance().getResource("commitLabel.text"));
-		this.tabsDetail.add(this.configurationSplitPaneMainDetail,
-				Options.getInstance().getResource("configurationLabel.text"));
-		this.tabsDetail.add(this.administrativeSplitPaneMainDetail,
-				Options.getInstance().getResource("administrativeLabel.text"));
-		this.tabsDetail.add(this.networkSplitPaneMainDetail,
-				Options.getInstance().getResource("networkLabel.text"));
-		this.tabsDetail.add(this.queuningSplitPaneMainDetail,
-				Options.getInstance().getResource("queueningLabel.text"));
-		this.tabsDetail.add(this.clusterSplitPaneMainDetail,
-				Options.getInstance().getResource("clusterLabel.text"));
-		this.tabsDetail.add(this.otherSplitPaneMainDetail,
-				Options.getInstance().getResource("otherLabel.text"));
-		
-		this.cpuChartPanel.addListenerReleaseMouse(this.cpuSqlsAndSessions);
-		this.schedulerChartPanel.addListenerReleaseMouse(this.schedulerSqlsAndSessions);
-		this.userIOChartPanel.addListenerReleaseMouse(this.userIOSqlsAndSessions);
-		this.systemIOChartPanel.addListenerReleaseMouse(this.systemIOSqlsAndSessions);
-		this.concurrencyChartPanel.addListenerReleaseMouse(this.concurrencySqlsAndSessions);
-		this.applicationChartPanel.addListenerReleaseMouse(this.applicationSqlsAndSessions);
-		this.commitChartPanel.addListenerReleaseMouse(this.commitSqlsAndSessions);
-		this.configurationChartPanel.addListenerReleaseMouse(this.configurationSqlsAndSessions);
-		this.administrativeChartPanel.addListenerReleaseMouse(this.administrativeSqlsAndSessions);
-		this.networkChartPanel.addListenerReleaseMouse(this.networkSqlsAndSessions);
-		this.queuningChartPanel.addListenerReleaseMouse(this.queuningSqlsAndSessions);
-		this.clusterChartPanel.addListenerReleaseMouse(this.clusterSqlsAndSessions);
-		this.otherChartPanel.addListenerReleaseMouse(this.otherSqlsAndSessions);
-		
-	    this.cpuChartPanel.addListenerReleaseMouse(this.statusBar);
-		this.schedulerChartPanel.addListenerReleaseMouse(this.statusBar);
-		this.userIOChartPanel.addListenerReleaseMouse(this.statusBar);
-		this.systemIOChartPanel.addListenerReleaseMouse(this.statusBar);
-		this.concurrencyChartPanel.addListenerReleaseMouse(this.statusBar);
-		this.applicationChartPanel.addListenerReleaseMouse(this.statusBar);
-		this.commitChartPanel.addListenerReleaseMouse(this.statusBar);
-		this.configurationChartPanel.addListenerReleaseMouse(this.statusBar);
-		this.administrativeChartPanel.addListenerReleaseMouse(this.statusBar);
-		this.networkChartPanel.addListenerReleaseMouse((Object)this.statusBar);
-		this.queuningChartPanel.addListenerReleaseMouse((Object)this.statusBar);
-		this.clusterChartPanel.addListenerReleaseMouse((Object)this.statusBar);
-		this.otherChartPanel.addListenerReleaseMouse((Object)this.statusBar);
+		this.CPUChartPanel.addListenerReleaseMouse(this.statusBar);
+		this.LWLockChartPanel.addListenerReleaseMouse(this.statusBar);
+		this.LockChartPanel.addListenerReleaseMouse(this.statusBar);
+		this.BufferPinChartPanel.addListenerReleaseMouse(this.statusBar);
+		this.ActivityChartPanel.addListenerReleaseMouse(this.statusBar);
+		this.ExtensionChartPanel.addListenerReleaseMouse(this.statusBar);
+		this.ClientChartPanel.addListenerReleaseMouse(this.statusBar);
+		this.IPCChartPanel.addListenerReleaseMouse(this.statusBar);
+		this.TimeoutChartPanel.addListenerReleaseMouse(this.statusBar);
+		this.IOChartPanel.addListenerReleaseMouse(this.statusBar);
 	
 		ChangeListener changeListener = new ChangeListener() {
 		      public void stateChanged(ChangeEvent changeEvent) {
@@ -472,62 +286,30 @@ public class DetailPanels extends JPanel{
 	 * Load data to dataset
 	 */
 	public void loadDataToDataSet(){
-		this.database.saveStackedXYAreaChartDetail(
-				this.cpuStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("cpuLabel.text"));
-		this.database.saveStackedXYAreaChartDetail(
-				this.schedulerStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("schedulerLabel.text"));
-		this.database.saveStackedXYAreaChartDetail(
-				this.userIOStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("userIOLabel.text"));
-		this.database.saveStackedXYAreaChartDetail(
-				this.systemIOStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("systemIOLabel.text"));	
-		this.database.saveStackedXYAreaChartDetail(
-				this.concurrencyStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("concurrencyLabel.text"));		
-		this.database.saveStackedXYAreaChartDetail(
-				this.applicationStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("applicationsLabel.text"));
-		this.database.saveStackedXYAreaChartDetail(
-				this.commitStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("commitLabel.text"));		
-		this.database.saveStackedXYAreaChartDetail(
-				this.configurationStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("configurationLabel.text"));
-		this.database.saveStackedXYAreaChartDetail(
-				this.administrativeStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("administrativeLabel.text"));
-		this.database.saveStackedXYAreaChartDetail(
-				this.networkStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("networkLabel.text"));
-		this.database.saveStackedXYAreaChartDetail(
-				this.queuningStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("queueningLabel.text"));
-		this.database.saveStackedXYAreaChartDetail(
-				this.clusterStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("clusterLabel.text"));
-		this.database.saveStackedXYAreaChartDetail(
-				this.otherStackedChartMainObjectDetail, 
-				Options.getInstance().getResource("otherLabel.text"));
+		this.database.saveStackedXYAreaChartDetail(this.CPUStackedChartMainObjectDetail, Options.getInstance().getResource("CPULabel.text"));
+		this.database.saveStackedXYAreaChartDetail(this.IOStackedChartMainObjectDetail, Options.getInstance().getResource("IOLabel.text"));
+		this.database.saveStackedXYAreaChartDetail(this.LockStackedChartMainObjectDetail, Options.getInstance().getResource("LockLabel.text"));
+		this.database.saveStackedXYAreaChartDetail(this.LWLockStackedChartMainObjectDetail, Options.getInstance().getResource("LWLockLabel.text"));
+		this.database.saveStackedXYAreaChartDetail(this.BufferPinStackedChartMainObjectDetail, Options.getInstance().getResource("BufferPinLabel.text"));
+		this.database.saveStackedXYAreaChartDetail(this.ActivityStackedChartMainObjectDetail, Options.getInstance().getResource("ActivityLabel.text"));	
+		this.database.saveStackedXYAreaChartDetail(this.ExtensionStackedChartMainObjectDetail, Options.getInstance().getResource("ExtensionLabel.text"));
+		this.database.saveStackedXYAreaChartDetail(this.ClientStackedChartMainObjectDetail, Options.getInstance().getResource("ClientLabel.text"));
+		this.database.saveStackedXYAreaChartDetail(this.IPCStackedChartMainObjectDetail, Options.getInstance().getResource("IPCLabel.text"));
+		this.database.saveStackedXYAreaChartDetail(this.TimeoutStackedChartMainObjectDetail, Options.getInstance().getResource("TimeoutLabel.text"));
 		
 		this.database.initialLoadingDataToChartPanelDataSetDetail();
 		
-		this.cpuStackedChartMainObjectDetail.setTitle();
-		this.schedulerStackedChartMainObjectDetail.setTitle();
-		this.userIOStackedChartMainObjectDetail.setTitle();
-		this.systemIOStackedChartMainObjectDetail.setTitle();
-		this.concurrencyStackedChartMainObjectDetail.setTitle();
-		this.applicationStackedChartMainObjectDetail.setTitle();
-		this.commitStackedChartMainObjectDetail.setTitle();
-		this.configurationStackedChartMainObjectDetail.setTitle();
-		this.administrativeStackedChartMainObjectDetail.setTitle();
-		this.networkStackedChartMainObjectDetail.setTitle();
-		this.queuningStackedChartMainObjectDetail.setTitle();
-		this.clusterStackedChartMainObjectDetail.setTitle();
-		this.otherStackedChartMainObjectDetail.setTitle();
-		
+		this.CPUStackedChartMainObjectDetail.setTitle();
+		this.IOStackedChartMainObjectDetail.setTitle();
+		this.LockStackedChartMainObjectDetail.setTitle();
+		this.LWLockStackedChartMainObjectDetail.setTitle();
+		this.BufferPinStackedChartMainObjectDetail.setTitle();
+		this.ActivityStackedChartMainObjectDetail.setTitle();
+		this.ExtensionStackedChartMainObjectDetail.setTitle();
+		this.ClientStackedChartMainObjectDetail.setTitle();
+		this.IPCStackedChartMainObjectDetail.setTitle();
+		this.TimeoutStackedChartMainObjectDetail.setTitle();
+
 		this.setThresholdMaxCpu();
 	}
 	
@@ -544,19 +326,16 @@ public class DetailPanels extends JPanel{
      * @param bound
      */
     public void setUpperBoundOfRangeAxis(double bound){
-    	this.cpuStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.schedulerStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.userIOStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.systemIOStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.concurrencyStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.applicationStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.commitStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.configurationStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.administrativeStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.networkStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.queuningStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.clusterStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
-		this.otherStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
+	    	this.CPUStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
+	    	this.LWLockStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
+		this.LockStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
+		this.BufferPinStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
+		this.ActivityStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
+		this.ExtensionStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
+		this.ClientStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
+		this.IPCStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
+		this.TimeoutStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
+		this.IOStackedChartMainObjectDetail.setUpperBoundOfRangeAxis(bound);
     }
 	
     /**
@@ -567,86 +346,46 @@ public class DetailPanels extends JPanel{
     public JPanel getThumbnailDetailPanel(){
     	JPanel mainPanel = new JPanel(new GridLayout(3, 5));
     	
-    	BufferedImage thumbCpu = 
-    		this.cpuStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageCpu = new ImageIcon(thumbCpu);
-        mainPanel.add(new JButton(imageCpu));
+    	BufferedImage thumbCPU = this.CPUStackedChartMainObjectDetail.createBufferedImage(120, 80, 360, 240,null);
+    	ImageIcon imageCPU = new ImageIcon(thumbCPU);
+        mainPanel.add(new JButton(imageCPU));
+
+    	BufferedImage thumbIO = this.IOStackedChartMainObjectDetail.createBufferedImage(120, 80, 360, 240,null);
+    	ImageIcon imageIO = new ImageIcon(thumbIO);
+        mainPanel.add(new JButton(imageIO));
+
+    	BufferedImage thumbLock = this.LockStackedChartMainObjectDetail.createBufferedImage(120, 80, 360, 240,null);
+    	ImageIcon imageLock = new ImageIcon(thumbLock);
+        mainPanel.add(new JButton(imageLock));
+
+    	BufferedImage thumbLWLock = this.LWLockStackedChartMainObjectDetail.createBufferedImage(120, 80, 360, 240,null);
+    	ImageIcon imageLWLock = new ImageIcon(thumbLWLock);
+        mainPanel.add(new JButton(imageLWLock));
+       
+    	BufferedImage thumbBufferPin = this.BufferPinStackedChartMainObjectDetail.createBufferedImage(120, 80, 360, 240,null);
+    	ImageIcon imageBufferPin = new ImageIcon(thumbBufferPin);
+        mainPanel.add(new JButton(imageBufferPin));
         
-    	BufferedImage thumbScheduler = 
-    		this.schedulerStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageScheduler = new ImageIcon(thumbScheduler);
-        mainPanel.add(new JButton(imageScheduler));
+    	BufferedImage thumbActivity = this.ActivityStackedChartMainObjectDetail.createBufferedImage(120, 80, 360, 240,null);
+    	ImageIcon imageActivity = new ImageIcon(thumbActivity);
+        mainPanel.add(new JButton(imageActivity));
         
-    	BufferedImage thumbUserIO = 
-    		this.userIOStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageUserIO = new ImageIcon(thumbUserIO);
-        mainPanel.add(new JButton(imageUserIO));
+    	BufferedImage thumbExtension = this.ExtensionStackedChartMainObjectDetail.createBufferedImage(120, 80, 360, 240,null);
+    	ImageIcon imageExtension = new ImageIcon(thumbExtension);
+        mainPanel.add(new JButton(imageExtension));
         
-    	BufferedImage thumbSystemIO = 
-    		this.systemIOStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageSystemIO = new ImageIcon(thumbSystemIO);
-        mainPanel.add(new JButton(imageSystemIO));
+    	BufferedImage thumbClient = this.ClientStackedChartMainObjectDetail.createBufferedImage(120, 80, 360, 240,null);
+    	ImageIcon imageClient = new ImageIcon(thumbClient);
+        mainPanel.add(new JButton(imageClient));
         
-    	BufferedImage thumbConcurrency = 
-    		this.concurrencyStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageConcurrency = new ImageIcon(thumbConcurrency);
-        mainPanel.add(new JButton(imageConcurrency));
+    	BufferedImage thumbIPC = this.IPCStackedChartMainObjectDetail.createBufferedImage(120, 80, 360, 240,null);
+    	ImageIcon imageIPC = new ImageIcon(thumbIPC);
+        mainPanel.add(new JButton(imageIPC));
         
-    	BufferedImage thumbApplication = 
-    		this.applicationStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageApplication = new ImageIcon(thumbApplication);
-        mainPanel.add(new JButton(imageApplication));
+    	BufferedImage thumbTimeout = this.TimeoutStackedChartMainObjectDetail.createBufferedImage(120, 80, 360, 240,null);
+    	ImageIcon imageTimeout = new ImageIcon(thumbTimeout);
+        mainPanel.add(new JButton(imageTimeout));
         
-    	BufferedImage thumbCommit = 
-    		this.commitStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageCommit = new ImageIcon(thumbCommit);
-        mainPanel.add(new JButton(imageCommit));
-        
-    	BufferedImage thumbConfiguration = 
-    		this.configurationStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageConfiguration = new ImageIcon(thumbConfiguration);
-        mainPanel.add(new JButton(imageConfiguration));
-        
-    	BufferedImage thumbAdministrative = 
-    		this.administrativeStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageAdministrative = new ImageIcon(thumbAdministrative);
-        mainPanel.add(new JButton(imageAdministrative));
-        
-    	BufferedImage thumbNetwork = 
-    		this.networkStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageNetwork = new ImageIcon(thumbNetwork);
-        mainPanel.add(new JButton(imageNetwork));
-        
-        mainPanel.add(new JPanel());
-        
-    	BufferedImage thumbQueuning = 
-    		this.queuningStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageQueuning = new ImageIcon(thumbQueuning);
-        mainPanel.add(new JButton(imageQueuning));
-        
-    	BufferedImage thumbCluster = 
-    		this.clusterStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageCluster = new ImageIcon(thumbCluster);
-        mainPanel.add(new JButton(imageCluster));
-        
-    	BufferedImage thumbOther = 
-    		this.otherStackedChartMainObjectDetail.
-    			createBufferedImage(120, 80, 360, 240,null);
-    	ImageIcon imageOther = new ImageIcon(thumbOther);
-        mainPanel.add(new JButton(imageOther));
-    	
         mainPanel.add(new JPanel());
         
     	return mainPanel;
@@ -656,19 +395,16 @@ public class DetailPanels extends JPanel{
      * Sets the threshold max cpu for all charts.
      */
     private void setThresholdMaxCpu(){  	
-    	this.cpuStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.schedulerStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.userIOStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.systemIOStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.concurrencyStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.applicationStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.commitStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.configurationStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.administrativeStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.networkStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.queuningStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.clusterStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
-		this.otherStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
+	    	this.CPUStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
+	    	this.LWLockStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
+		this.LockStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
+		this.BufferPinStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
+		this.ActivityStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
+		this.ExtensionStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
+		this.ClientStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
+		this.IPCStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
+		this.TimeoutStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
+		this.IOStackedChartMainObjectDetail.setThresholdMaxCpu(this.maxCpu);
       }
     
    /**
@@ -676,19 +412,16 @@ public class DetailPanels extends JPanel{
 	* @param time the time
 	*/
    public void updatexAxisLabel(double time){  	  
-	   this.cpuStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.schedulerStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.userIOStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.systemIOStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.concurrencyStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.applicationStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.commitStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.configurationStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.administrativeStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.networkStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.queuningStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.clusterStackedChartMainObjectDetail.updatexAxisLabel(time);
-		this.otherStackedChartMainObjectDetail.updatexAxisLabel(time);
+	   this.CPUStackedChartMainObjectDetail.updatexAxisLabel(time);
+	   this.LWLockStackedChartMainObjectDetail.updatexAxisLabel(time);
+		this.LockStackedChartMainObjectDetail.updatexAxisLabel(time);
+		this.BufferPinStackedChartMainObjectDetail.updatexAxisLabel(time);
+		this.ActivityStackedChartMainObjectDetail.updatexAxisLabel(time);
+		this.ExtensionStackedChartMainObjectDetail.updatexAxisLabel(time);
+		this.ClientStackedChartMainObjectDetail.updatexAxisLabel(time);
+		this.IPCStackedChartMainObjectDetail.updatexAxisLabel(time);
+		this.TimeoutStackedChartMainObjectDetail.updatexAxisLabel(time);
+		this.IOStackedChartMainObjectDetail.updatexAxisLabel(time);
    }
     
    /**
@@ -696,19 +429,16 @@ public class DetailPanels extends JPanel{
     * @param value
     */
    public void setTopSqlsSqlText(int value){
-	   this.cpuSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.schedulerSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.userIOSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.systemIOSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.concurrencySqlsAndSessions.setTopSqlsSqlText(value);
-	   this.applicationSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.commitSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.configurationSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.administrativeSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.networkSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.queuningSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.clusterSqlsAndSessions.setTopSqlsSqlText(value);
-	   this.otherSqlsAndSessions.setTopSqlsSqlText(value);
+	   this.CPUSqlsAndSessions.setTopSqlsSqlText(value);
+	   this.LWLockSqlsAndSessions.setTopSqlsSqlText(value);
+	   this.LockSqlsAndSessions.setTopSqlsSqlText(value);
+	   this.BufferPinSqlsAndSessions.setTopSqlsSqlText(value);
+	   this.ActivitySqlsAndSessions.setTopSqlsSqlText(value);
+	   this.ExtensionSqlsAndSessions.setTopSqlsSqlText(value);
+	   this.ClientSqlsAndSessions.setTopSqlsSqlText(value);
+	   this.IPCSqlsAndSessions.setTopSqlsSqlText(value);
+	   this.TimeoutSqlsAndSessions.setTopSqlsSqlText(value);
+	   this.IOSqlsAndSessions.setTopSqlsSqlText(value);
    }
    
    /**
@@ -717,19 +447,16 @@ public class DetailPanels extends JPanel{
     * @param value
     */
    public void setSelectSqlPlan(boolean isSelect){
-	   this.cpuSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.schedulerSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.userIOSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.systemIOSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.concurrencySqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.applicationSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.commitSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.configurationSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.administrativeSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.networkSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.queuningSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.clusterSqlsAndSessions.setSelectSqlPlan(isSelect);
-	   this.otherSqlsAndSessions.setSelectSqlPlan(isSelect);
+	   this.CPUSqlsAndSessions.setSelectSqlPlan(isSelect);
+	   this.LWLockSqlsAndSessions.setSelectSqlPlan(isSelect);
+	   this.LockSqlsAndSessions.setSelectSqlPlan(isSelect);
+	   this.BufferPinSqlsAndSessions.setSelectSqlPlan(isSelect);
+	   this.ActivitySqlsAndSessions.setSelectSqlPlan(isSelect);
+	   this.ExtensionSqlsAndSessions.setSelectSqlPlan(isSelect);
+	   this.ClientSqlsAndSessions.setSelectSqlPlan(isSelect);
+	   this.IPCSqlsAndSessions.setSelectSqlPlan(isSelect);
+	   this.TimeoutSqlsAndSessions.setSelectSqlPlan(isSelect);
+	   this.IOSqlsAndSessions.setSelectSqlPlan(isSelect);
    }
    
    /**
@@ -739,5 +466,4 @@ public class DetailPanels extends JPanel{
    public String getCurrentTabName(){
 	   return this.tabsDetail.getTitleAt(this.tabsDetail.getSelectedIndex());
    }
-   
 }

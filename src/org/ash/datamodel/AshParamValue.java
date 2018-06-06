@@ -40,9 +40,7 @@ class AshParamValue {
 
 	/**
      * Instantiates a new object
-     * 
-     * @param sampleId the sample id
-     * @param sampleTime the sample time
+
      */
     public AshParamValue(String parameterId,
                       String value) {

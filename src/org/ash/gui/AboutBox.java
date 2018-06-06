@@ -54,6 +54,7 @@ public class AboutBox extends JDialog implements ActionListener {
   
   /** The label3. */
   JLabel label3 = new JLabel();
+  JLabel label4 = new JLabel();
   
   /** The image1. */
   ImageIcon image1 = new ImageIcon();
@@ -87,7 +88,7 @@ public class AboutBox extends JDialog implements ActionListener {
     try {
       jbInit();
       init();
-      setSize(320,450);
+      setSize(380,450);
       button1.requestFocus();
     }
     catch(Exception e) {
@@ -137,9 +138,10 @@ public class AboutBox extends JDialog implements ActionListener {
     panel1.setLayout(borderLayout1);
     panel2.setLayout(gridBagLayout1);
     label1.setFont(new java.awt.Font("Dialog", 1, 11));
-    label1.setText("ASH Viewer");
+    label1.setText("PASH Viewer");
     label2.setText("released under GNU GPL License");
     label3.setText("Copyright (C) 2009 Alex Kardapolov");
+    label4.setText("Rewrited for PostgreSQL by Dmitry Tsvetkov");
     insetsPanel3.setLayout(gridBagLayout2);
     insetsPanel3.setBorder(BorderFactory.createEmptyBorder(10, 60, 10, 10));
     button1.setMnemonic(Options.getInstance().getResource("okbutton.mnemonic").charAt(0));
@@ -152,18 +154,13 @@ public class AboutBox extends JDialog implements ActionListener {
     
     iconButton.setBorder(null);
     this.getContentPane().add(panel1, null);
-    insetsPanel3.add(label1,     new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0
-            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-    insetsPanel3.add(label2,    new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-    insetsPanel3.add(label3,     new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
-            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-    insetsPanel3.add(iconButton,    new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0
-            ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-    panel2.add(scrollPane,    new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0
-            ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 10, 10), 0, 0));
-    panel2.add(insetsPanel3,   new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0
-            ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+    insetsPanel3.add(label1,     new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+    insetsPanel3.add(label2,    new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+    insetsPanel3.add(label3,     new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+    insetsPanel3.add(label4,     new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+    insetsPanel3.add(iconButton,    new GridBagConstraints(0, 0, 1, 3, 0.0, 0.0            ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    panel2.add(scrollPane,    new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0            ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 10, 10), 0, 0));
+    panel2.add(insetsPanel3,   new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0            ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
     insetsPanel1.add(button1, null);
     panel1.add(insetsPanel1, BorderLayout.SOUTH);
     panel1.add(panel2,  BorderLayout.CENTER);

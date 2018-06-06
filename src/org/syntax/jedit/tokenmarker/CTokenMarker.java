@@ -201,48 +201,38 @@ loop:		for(int i = offset; i < length; i++)
 		if(cKeywords == null)
 		{
 			cKeywords = new KeywordMap(false);
-			cKeywords.add("char",Token.KEYWORD3);
-			cKeywords.add("double",Token.KEYWORD3);
-			cKeywords.add("enum",Token.KEYWORD3);
-			cKeywords.add("float",Token.KEYWORD3);
-			cKeywords.add("int",Token.KEYWORD3);
-			cKeywords.add("long",Token.KEYWORD3);
-			cKeywords.add("short",Token.KEYWORD3);
-			cKeywords.add("signed",Token.KEYWORD3);
-			cKeywords.add("struct",Token.KEYWORD3);
-			cKeywords.add("typedef",Token.KEYWORD3);
-			cKeywords.add("union",Token.KEYWORD3);
-			cKeywords.add("unsigned",Token.KEYWORD3);
-			cKeywords.add("void",Token.KEYWORD3);
-			cKeywords.add("auto",Token.KEYWORD1);
-			cKeywords.add("const",Token.KEYWORD1);
-			cKeywords.add("extern",Token.KEYWORD1);
-			cKeywords.add("register",Token.KEYWORD1);
-			cKeywords.add("static",Token.KEYWORD1);
-			cKeywords.add("volatile",Token.KEYWORD1);
-			cKeywords.add("break",Token.KEYWORD1);
-			cKeywords.add("case",Token.KEYWORD1);
-			cKeywords.add("continue",Token.KEYWORD1);
-			cKeywords.add("default",Token.KEYWORD1);
-			cKeywords.add("do",Token.KEYWORD1);
-			cKeywords.add("else",Token.KEYWORD1);
-			cKeywords.add("for",Token.KEYWORD1);
-			cKeywords.add("goto",Token.KEYWORD1);
-			cKeywords.add("if",Token.KEYWORD1);
-			cKeywords.add("return",Token.KEYWORD1);
-			cKeywords.add("sizeof",Token.KEYWORD1);
-			cKeywords.add("switch",Token.KEYWORD1);
-			cKeywords.add("while",Token.KEYWORD1);
-			cKeywords.add("asm",Token.KEYWORD2);
-			cKeywords.add("asmlinkage",Token.KEYWORD2);
-			cKeywords.add("far",Token.KEYWORD2);
-			cKeywords.add("huge",Token.KEYWORD2);
-			cKeywords.add("inline",Token.KEYWORD2);
-			cKeywords.add("near",Token.KEYWORD2);
-			cKeywords.add("pascal",Token.KEYWORD2);
-			cKeywords.add("true",Token.LITERAL2);
-			cKeywords.add("false",Token.LITERAL2);
-			cKeywords.add("NULL",Token.LITERAL2);
+
+			cKeywords.add("Bitmap",Token.KEYWORD1);
+			cKeywords.add("BitmapAnd",Token.KEYWORD1);
+			cKeywords.add("Buckets",Token.KEYWORD1);
+			cKeywords.add("Buffers",Token.KEYWORD1);
+			cKeywords.add("Cond",Token.KEYWORD1);
+			cKeywords.add("Filter",Token.KEYWORD1);
+			cKeywords.add("Hash",Token.KEYWORD1);
+			cKeywords.add("Heap",Token.KEYWORD1);
+			cKeywords.add("Index",Token.KEYWORD1);
+			cKeywords.add("Join",Token.KEYWORD1);
+			cKeywords.add("Key",Token.KEYWORD1);
+			cKeywords.add("Loop",Token.KEYWORD1);
+			cKeywords.add("Materialize",Token.KEYWORD1);
+			cKeywords.add("Merge",Token.KEYWORD1);
+			cKeywords.add("Method",Token.KEYWORD1);
+			cKeywords.add("Nested",Token.KEYWORD1);
+			cKeywords.add("Recheck",Token.KEYWORD1);
+			cKeywords.add("Removed",Token.KEYWORD1);
+			cKeywords.add("Result",Token.KEYWORD1);
+			cKeywords.add("Scan",Token.KEYWORD1);
+			cKeywords.add("Seq",Token.KEYWORD1);
+			cKeywords.add("Sort",Token.KEYWORD1);
+
+			/*
+			cKeywords.add("cost",Token.LITERAL1);
+			cKeywords.add("rows",Token.LITERAL1);
+			cKeywords.add("width",Token.LITERAL1);
+			cKeywords.add("time",Token.LITERAL1);
+			cKeywords.add("actual",Token.LITERAL1);
+			cKeywords.add("loops",Token.LITERAL1);
+			*/
 		}
 		return cKeywords;
 	}

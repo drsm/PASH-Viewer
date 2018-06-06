@@ -104,8 +104,8 @@ public class ConnectionPool implements Runnable{
 			}
 		} else {
 			// Three possible cases:
-			// 1) You haven’t reached maxConnections limit. So
-			// establish one in the background if there isn’t
+			// 1) You havenï¿½t reached maxConnections limit. So
+			// establish one in the background if there isnï¿½t
 			// already one pending, then wait for
 			// the next available connection (whether or not
 			// it was the newly established one).
@@ -131,7 +131,7 @@ public class ConnectionPool implements Runnable{
 		}
 	}
 
-	// You can’t just make a new connection in the foreground
+	// You canï¿½t just make a new connection in the foreground
 	// when none are available, since this can take several
 	// seconds with a slow network connection. Instead,
 	// start a thread that establishes a new connection,
@@ -182,45 +182,16 @@ public class ConnectionPool implements Runnable{
 			// Load database driver if not already loaded
 			Class.forName(driver);
 			// Establish network connection to database
-			Connection connection = DriverManager.getConnection(url, username,
-					password);
-			// set module and action name for session
-			setModuleActionName(connection);
-						
+			Connection connection = DriverManager.getConnection(url, username, password);
 			return (connection);
 			
 		} catch (ClassNotFoundException cnfe) {
 			// Simplify try/catch blocks of people using this by
 			// throwing only one exception type.
-			throw new SQLException("Can’t find class for driver: " + driver);
+			throw new SQLException("Canï¿½t find class for driver: " + driver);
 		}
 	}
 
-	/**
-	 * Sets the module action name DBMS_APPLICATION_INFO.SET_MODULE
-	 * 
-	 * @param conn the new module action name
-	 */
-	private void setModuleActionName(Connection conn) {
-		CallableStatement stmt = null;
-		try {
-			stmt = conn
-					.prepareCall("begin DBMS_APPLICATION_INFO.SET_MODULE(?,?); end;");
-			stmt.setString(1, "ASH Viewer");
-			stmt.setString(2, "ASH Viewer");
-			stmt.execute();
-		} catch (SQLException ex) {
-		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close(); // close the statement
-				}
-			} catch (SQLException ex) {
-			}
-		}
-	}
-	
-	
 	/**
 	 * Free the connection
 	 * 

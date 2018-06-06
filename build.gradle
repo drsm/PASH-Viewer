@@ -10,9 +10,9 @@
 apply plugin: 'application'
 apply plugin: 'java'
 
-version = '3.5.1'
-sourceCompatibility = 1.5
-targetCompatibility = 1.5
+version = '0.2'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 mainClassName = "org.ash.MainApp"
 applicationDefaultJvmArgs = ["-Xmx512m"]
@@ -20,7 +20,7 @@ applicationDefaultJvmArgs = ["-Xmx512m"]
 //create a single Jar with all dependencies
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Implementation-Title': 'ASH Viewer',
+        attributes 'Implementation-Title': 'PASH Viewer',
                 'Implementation-Version': version,
                 'Main-Class': mainClassName
     }

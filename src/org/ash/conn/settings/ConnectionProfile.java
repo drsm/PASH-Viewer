@@ -88,7 +88,6 @@ public class ConnectionProfile {
       driver = br.readLine();
       url = br.readLine();
       username = br.readLine();
-      edition = br.readLine();
       br.close();
 
       File passwdFile = new File(file.getAbsolutePath().substring(0,file.getAbsolutePath().length()-4)+".pwd");
@@ -98,7 +97,7 @@ public class ConnectionProfile {
       String password = Options.getInstance().decodeFromBytes(bb);
       in.close();
 
-      conns.add(new DbConnection(name,driver,url,username,password,edition));
+      conns.add(new DbConnection(name,driver,url,username,password));
       connNames.add(name);
 
     } catch (Exception ex) {
@@ -135,7 +134,6 @@ public class ConnectionProfile {
      pw.println( c.getClassName() );
      pw.println( c.getUrl() );
      pw.println( c.getUsername() );
-     pw.println( c.getEdition() );
 
      // save one empty row...
      pw.println( "" );

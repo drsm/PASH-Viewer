@@ -52,14 +52,12 @@ import javax.swing.event.ListSelectionListener;
 
 import org.ash.conn.model.Model;
 import org.ash.database.ASHDatabase;
-import org.ash.database.Database10g2;
-import org.ash.database.Database11g1;
-import org.ash.database.Database11g2;
 import org.ash.util.Options;
 import org.ash.util.ProgressBarUtil;
 import org.ash.util.Utils;
 import org.syntax.jedit.JEditTextArea;
 import org.syntax.jedit.tokenmarker.PLSQLTokenMarker;
+import org.syntax.jedit.tokenmarker.CTokenMarker;
 
 import com.egantt.model.drawing.ContextResources;
 import com.egantt.model.drawing.DrawingState;
@@ -76,6 +74,15 @@ import ext.egantt.drawing.module.GradientColorModule;
 import ext.egantt.drawing.painter.context.BasicPainterContext;
 import ext.egantt.swing.GanttDrawingPartHelper;
 import ext.egantt.swing.GanttTable;
+
+// dcvetkov import
+import org.ash.util.Options;
+import java.io.File;
+import java.nio.file.*;
+import java.io.IOException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 
 /**
  * The Class SqlsAndSessionsGantt.
@@ -110,44 +117,35 @@ public class Gantt extends JPanel {
 	 * */
 	private int scaleToggle = 0;
 
-	/** The other0. */
-	private String other0 = "0";
+	/** The cpu0. */
+	private String cpu0 = "0";
 
-	/** The application1. */
-	private String application1 = "1";
+	/** The io1. */
+	private String io1 = "1";
 
-	/** The configuration2. */
-	private String configuration2 = "2";
+	/** The lock2. */
+	private String lock2 = "2";
 
-	/** The administrative3. */
-	private String administrative3 = "3";
+	/** The lwlock3. */
+	private String lwlock3 = "3";
 
-	/** The concurrency4. */
-	private String concurrency4 = "4";
+	/** The bufferpin4. */
+	private String bufferpin4 = "4";
 
-	/** The commit5. */
-	private String commit5 = "5";
+	/** The activity5. */
+	private String activity5 = "5";
 
-	/** The network7. */
-	private String network7 = "7";
+	/** The extension6. */
+	private String extension6 = "6";
 
 	/** The user i o8. */
-	private String userIO8 = "8";
+	private String client7 = "7";
 
 	/** The system i o9. */
-	private String systemIO9 = "9";
+	private String ipc8 = "8";
 
-	/** The scheduler10. */
-	private String scheduler10 = "10";
-
-	/** The cluster11. */
-	private String cluster11 = "11";
-
-	/** The queueing12. */
-	private String queueing12 = "12";
-
-	/** The cpu. */
-	private String cpu = "13";
+	/** The timeout9. */
+	private String timeout9 = "9";
 
 	/** The SUM var. */
 	private String SUM = "SUM";
@@ -166,6 +164,9 @@ public class Gantt extends JPanel {
 
 	/** SQL text */
 	private JEditTextArea jtextAreaSqlText = new JEditTextArea();
+	private JEditTextArea jtextAreaSqlPlan = new JEditTextArea();
+	private String SQLTEXT = "";
+	private String SQLPLAN = "";
 	
 	/** Is select sql plan*/
 	private boolean isSelectSqlPlan = false;
@@ -174,7 +175,6 @@ public class Gantt extends JPanel {
 	 * Constructor Gantt JPanel
 	 * 
 	 * @param rootFrame0 the root frame0
-	 * @param model0 the model0
 	 * @param database0 the database0
 	 */
 	public Gantt(JFrame rootFrame0, ASHDatabase database0) {
@@ -199,10 +199,10 @@ public class Gantt extends JPanel {
 	 * @param beginTime the begin time
 	 * @param endTime the end time
 	 */
-	public synchronized void loadDataToJPanels(final double beginTime,
-			final double endTime) {
+	public synchronized void loadDataToJPanels(final double beginTime, final double endTime) {
 
 		this.main.removeAll();
+
 		JPanel panel = createProgressBar("Loading, please wait...");
 		this.main.add(panel);
 
@@ -235,45 +235,53 @@ public class Gantt extends JPanel {
 		this.database.getSessionsTemp().clear();
 		this.database.calculateSqlsSessionsData(beginTime, endTime, "All");
 
+
+
+
 		// Load data to JTable model
 		try {
-			String sqlIdHash = "";
-			if (Options.getInstance().getVersionDb().equalsIgnoreCase("9i")) {
-				sqlIdHash = "Hash Value";
-			} else {
-				sqlIdHash = "SQL ID";
-			}
+			String sqlIdHash = "SQL ID";
 
-			String[][] columnNamesSqls = { { "Activity %", sqlIdHash,
-					"SQL Type" } };
-			String[][] columnNamesSessions = { { "Activity %", "Session ID",
-					"User Name", "Program" } };
+			String[][] columnNamesSqls = { { "Activity %", sqlIdHash, "SQL Type" } };
+			String[][] columnNamesSessions = { { "Activity %", "PID", "User Name", "Program" } };
 
 			/** Array NofRow-sqlId for SQL Text tab*/
 			Map<Integer, String> arraySqlIdTSQLTextTab = new HashMap<Integer, String>();
 
 			/** Create gantt table */
-			final GanttTable tableGanttSql = new GanttTable(
-					loadDataToSqlsGantt(arraySqlIdTSQLTextTab), columnNamesSqls,
-					getBasicJTableList());
-			final GanttTable tableGanttSessions = new GanttTable(
-					loadDataToSessionsGantt(), columnNamesSessions,
-					getBasicJTableList());
+			final GanttTable tableGanttSql = new GanttTable(loadDataToSqlsGantt(arraySqlIdTSQLTextTab), columnNamesSqls, getBasicJTableList());
+			final GanttTable tableGanttSessions = new GanttTable(loadDataToSessionsGantt(), columnNamesSessions, getBasicJTableList());
 
 			/** Set tooltip and percent*/
 			setTooltipAndPercent(tableGanttSql);
 			setTooltipAndPercent(tableGanttSessions);
 
 			/** Left tabbed pane (Top SQL + SQL text)*/
-			JTabbedPane tabsTopSQLText = new JTabbedPane();
+			final JTabbedPane tabsTopSQLText = new JTabbedPane();
+
+			// dcvetkov - add listener for tabbed pane
+			tabsTopSQLText.addChangeListener(new ChangeListener() {
+			        public void stateChanged(ChangeEvent e) {
+					if(tabsTopSQLText.getSelectedIndex()==1) {
+						jtextAreaSqlText.setTokenMarker(new PLSQLTokenMarker());
+						jtextAreaSqlText.setEditable(false);
+						jtextAreaSqlText.setText(SQLTEXT);
+					}
+					else if(tabsTopSQLText.getSelectedIndex()==2) {
+						jtextAreaSqlText.setTokenMarker(new CTokenMarker());
+						jtextAreaSqlText.setEditable(false);
+						jtextAreaSqlText.setText(SQLPLAN);
+					}
+					jtextAreaSqlText.setCaretPosition(0);
+					jtextAreaSqlText.updateUI();
+			        }
+			});
 
 			/** Top SQL pane*/
 			JScrollPane leftPane = new JScrollPane(
 					ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			leftPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-
-			SqlPlan sqlPlan = new SqlPlan(root, database);
 
 			/** Top sessions pane*/
 			JScrollPane rightPane = new JScrollPane(
@@ -291,21 +299,15 @@ public class Gantt extends JPanel {
 			tableGanttSessions.getJTable().setCellSelectionEnabled(true);
 
 			/** Add component to left tabs*/
-			tabsTopSQLText.add(leftPane, Options.getInstance().getResource(
-					"tabTopSQL.text"));
-			tabsTopSQLText.add(jtextAreaSqlText, Options.getInstance()
-					.getResource("tabSQLText.text"));
-			tabsTopSQLText.add(sqlPlan, Options.getInstance().getResource(
-					"tabSQLPlan.text"));
+			tabsTopSQLText.add(leftPane, Options.getInstance().getResource("tabTopSQL.text"));
+			tabsTopSQLText.add(jtextAreaSqlText, Options.getInstance().getResource("tabSQLText.text"));
+			tabsTopSQLText.add(jtextAreaSqlPlan, Options.getInstance().getResource("tabSQLPlan.text"));
 			tabsTopSQLText.setEnabledAt(1, false);
 			tabsTopSQLText.setEnabledAt(2, false);
 
 			/** Add selection listener for table model*/
-			SelectionListener listener = new SelectionListener(tableGanttSql
-					.getJTable(), tabsTopSQLText, jtextAreaSqlText,
-					arraySqlIdTSQLTextTab, sqlPlan, database);
-			tableGanttSql.getJTable().getSelectionModel()
-					.addListSelectionListener(listener);
+			SelectionListener listener = new SelectionListener(tableGanttSql.getJTable(), tabsTopSQLText, jtextAreaSqlText, jtextAreaSqlPlan, arraySqlIdTSQLTextTab, database);
+			tableGanttSql.getJTable().getSelectionModel().addListSelectionListener(listener);
 
 			/** Layout components*/
 			splitPane.setLeftComponent(tabsTopSQLText);
@@ -314,23 +316,8 @@ public class Gantt extends JPanel {
 			splitPane.setOneTouchExpandable(true);
 
 			this.main.removeAll();
-			
-			if (database instanceof Database10g2 ||
-					database instanceof Database11g1 ||
-						database instanceof Database11g2) {
-				
-				JTabbedPane tabPane = new JTabbedPane();
-				tabPane.add("Top sql & sessions",splitPane);
-				tabPane.add("ASH Report",new ASHReport(root,database,beginTime,endTime));
-				tabPane.add("ASH raw data",new ASHMainrawdata(root,database,beginTime,endTime,""));
-				this.main.add(tabPane);
-				this.validate();
-				
-			} else {
-				this.main.add(splitPane);
-				this.validate();
-			}
-
+			this.main.add(splitPane);
+			this.validate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -343,27 +330,19 @@ public class Gantt extends JPanel {
 		JTable table;
 		JTabbedPane tabbedpane;
 		JEditTextArea sqlTextArea;
+		JEditTextArea sqlPlanArea;
 		Map<Integer, String> arraySqlIdText50SQLTextTab;
-		SqlPlan sqlPlan;
 		ASHDatabase database;
 		
-		SelectionListener(JTable table, JTabbedPane tabbedpane,
-				JEditTextArea sqlTextArea,
-				Map<Integer, String> arraySqlIdText50SQLTextTab,
-				SqlPlan sqlPlan, ASHDatabase database) {
+		SelectionListener(JTable table, JTabbedPane tabbedpane, JEditTextArea sqlTextArea, JEditTextArea sqlPlanArea, Map<Integer, String> arraySqlIdText50SQLTextTab, ASHDatabase database) {
 			this.table = table;
 			this.tabbedpane = tabbedpane;
 			this.sqlTextArea = sqlTextArea;
+			this.sqlPlanArea = sqlPlanArea;
 			this.arraySqlIdText50SQLTextTab = arraySqlIdText50SQLTextTab;
-			this.sqlPlan = sqlPlan;
 			this.database = database;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
-		 */
 		public void valueChanged(ListSelectionEvent e) {
 
 			if (e.getValueIsAdjusting()) {
@@ -396,23 +375,17 @@ public class Gantt extends JPanel {
 		 * Load sql text and plan to tabs
 		 */
 		private void loadSqlTextAndPlan(){
-			final String sqlId = arraySqlIdText50SQLTextTab.get(table
-					.getSelectedRow());
+			final String sqlId = arraySqlIdText50SQLTextTab.get(table.getSelectedRow());
 			final String sqlText = database.getSqlText(sqlId);
 			final String sqlType = database.getSqlType(sqlId);
 
 			// Load formatted sql text
 			if (sqlText != null && sqlText != "") {
 				tabbedpane.setEnabledAt(1, true);
-
 				try {
-					sqlTextArea.setText(Utils.formatSqlAll(sqlText)
-							.toString());
-					sqlTextArea.setCaretPosition(0);
-					sqlTextArea.updateUI();
+					SQLTEXT = Utils.formatSqlAll(sqlText).toString();
 				} catch (Exception e1) {
-					sqlTextArea
-							.setText("Error in syntax highlighting of sql!");
+					SQLTEXT = sqlText;
 				}
 			} else {
 				tabbedpane.setEnabledAt(1, false);
@@ -423,23 +396,28 @@ public class Gantt extends JPanel {
 			if (sqlType.equalsIgnoreCase("SELECT")
 					|| sqlType.equalsIgnoreCase("INSERT")
 					|| sqlType.equalsIgnoreCase("UPDATE")
-					|| sqlType.equalsIgnoreCase("DELETE")
-					|| sqlType.equalsIgnoreCase("MERGE")
-					|| sqlType.equalsIgnoreCase("UNKNOWN")
-					|| (sqlType == "" && sqlType != null)) {
+					|| sqlType.equalsIgnoreCase("DELETE")) {
 				tabbedpane.setEnabledAt(2, true);
 				try {
-					sqlPlan.loadSqlPlan(sqlId, false);
+					// dcvetkov - load plan from file
+					String FILESEPARATOR = System.getProperty("file.separator");
+					Path planFileName = Paths.get(Options.getInstance().getPlanDir() + FILESEPARATOR + sqlId + ".plan");
+					if (Files.exists(planFileName)) {
+						byte[] planBytes = Files.readAllBytes(planFileName);
+						String plan = new String(planBytes);
+						SQLPLAN = plan;
+					} else {
+						SQLPLAN = "";
+					}
 				} catch (Exception e1) {
-					System.out.println("SQL Exception occured: "
-							+ e1.getMessage());
+					System.out.println("Exception occured: " + e1.getMessage());
 				}
 			} else {
 				tabbedpane.setEnabledAt(2, false);
 			}
 			
 			tabbedpane.setComponentAt(1, sqlTextArea);
-			tabbedpane.setComponentAt(2, sqlPlan);			
+			tabbedpane.setComponentAt(2, sqlPlanArea);
 		}
 	}
 
@@ -544,7 +522,7 @@ public class Gantt extends JPanel {
 			ii++;
 		}
 				
-		/** Load commandType, sqlText from Oracle database*/
+		/** Load commandType, sqlText from database*/
 		database.loadSqlTextCommandTypeFromDB(arraySqlId);
 
 		/** Load sql plan to local BDB*/
@@ -568,9 +546,8 @@ public class Gantt extends JPanel {
 			clipBoardContent.append(sqlId + ":::" + sqlText + "\n");
 
 			/** Save arraySqlIdText50 for SQL Text tab*/
-			if (!sqlType.equalsIgnoreCase("UNKNOWN")) {
-				arraySqlIdTSQLTextTab.put(ii, sqlId);
-			}
+			// if (!sqlType.equalsIgnoreCase("UNKNOWN")) { arraySqlIdTSQLTextTab.put(ii, sqlId); }
+			arraySqlIdTSQLTextTab.put(ii, sqlId);
 			
 			/** Exit when rows > 500 */
 			if (ii + 1 == Math.min(sizeGanttTable, sizeMainSqls)) {
@@ -615,8 +592,7 @@ public class Gantt extends JPanel {
 		for (Entry<String, HashMap<String, Object>> me : sortedSessionMap
 				.entrySet()) {
 
-			data[i][0] = createDrawingState(partHelper, me, countOfSqls,
-					sumOfRange);
+			data[i][0] = createDrawingState(partHelper, me, countOfSqls, sumOfRange);
 			data[i][1] = me.getValue().get(SESSIONID);
 			data[i][2] = me.getValue().get(USERNAME);
 			data[i][3] = me.getValue().get(PROGRAM);
@@ -636,7 +612,6 @@ public class Gantt extends JPanel {
 	/**
 	 * Creates the drawing state for Sqls and Sessions.
 	 * 
-	 * @param obj the obj
 	 * @param helper the helper
 	 * @param me the me
 	 * @param countOfSqls the sum of range
@@ -682,21 +657,16 @@ public class Gantt extends JPanel {
 
 		// Save to local map, sort by values 
 		HashMap tempKeyMap = new HashMap<String, Double>();
-		tempKeyMap.put(other0, me.getValue().get(other0));
-		tempKeyMap.put(application1, me.getValue().get(application1));
-		tempKeyMap.put(configuration2, me.getValue().get(
-				configuration2));
-		tempKeyMap.put(administrative3, me.getValue().get(
-				administrative3));
-		tempKeyMap.put(concurrency4, me.getValue().get(concurrency4));
-		tempKeyMap.put(commit5, me.getValue().get(commit5));
-		tempKeyMap.put(network7, me.getValue().get(network7));
-		tempKeyMap.put(userIO8, me.getValue().get(userIO8));
-		tempKeyMap.put(systemIO9, me.getValue().get(systemIO9));
-		tempKeyMap.put(scheduler10, me.getValue().get(scheduler10));
-		tempKeyMap.put(cluster11, me.getValue().get(cluster11));
-		tempKeyMap.put(queueing12, me.getValue().get(queueing12));
-		tempKeyMap.put(cpu, me.getValue().get(cpu));
+		tempKeyMap.put(cpu0, me.getValue().get(cpu0));
+		tempKeyMap.put(io1, me.getValue().get(io1));
+		tempKeyMap.put(lock2, me.getValue().get(lock2));
+		tempKeyMap.put(lwlock3, me.getValue().get(lwlock3));
+		tempKeyMap.put(bufferpin4, me.getValue().get(bufferpin4));
+		tempKeyMap.put(activity5, me.getValue().get(activity5));
+		tempKeyMap.put(extension6, me.getValue().get(extension6));
+		tempKeyMap.put(client7, me.getValue().get(client7));
+		tempKeyMap.put(ipc8, me.getValue().get(ipc8));
+		tempKeyMap.put(timeout9, me.getValue().get(timeout9));
 
 		HashMap sortedByKeyMap = new HashMap<String, Double>();
 
@@ -783,8 +753,6 @@ public class Gantt extends JPanel {
 	 * Creates the drawing state for SqlId.
 	 * 
 	 * @param helper  the helper
-	 * @param me  the me
-	 * @param arraySqlIdText50
 	 * @return the drawing state
 	 */
 	private DrawingState createDrawingStateSqlId(GanttDrawingPartHelper helper,
@@ -1002,32 +970,26 @@ public class Gantt extends JPanel {
 	 */
 	private String getGradientContext(String value) {
 		String context = "";
-		if (value == other0) {
-			context = GradientColorModule.OTHER0_GRADIENT_CONTEXT;
-		} else if (value == application1) {
-			context = GradientColorModule.APPLICATION1_GRADIENT_CONTEXT;
-		} else if (value == configuration2) {
-			context = GradientColorModule.CONFIGURATION2_GRADIENT_CONTEXT;
-		} else if (value == administrative3) {
-			context = GradientColorModule.ADMINISTRATIVE3_GRADIENT_CONTEXT;
-		} else if (value == concurrency4) {
-			context = GradientColorModule.CONCURRENCY4_GRADIENT_CONTEXT;
-		} else if (value == commit5) {
-			context = GradientColorModule.COMMIT5_GRADIENT_CONTEXT;
-		} else if (value == network7) {
-			context = GradientColorModule.NETWORK7_GRADIENT_CONTEXT;
-		} else if (value == userIO8) {
-			context = GradientColorModule.USERIO8_GRADIENT_CONTEXT;
-		} else if (value == systemIO9) {
-			context = GradientColorModule.SYSTEMIO9_GRADIENT_CONTEXT;
-		} else if (value == scheduler10) {
-			context = GradientColorModule.SCHEDULER10_GRADIENT_CONTEXT;
-		} else if (value == cluster11) {
-			context = GradientColorModule.CLUSTER11_GRADIENT_CONTEXT;
-		} else if (value == queueing12) {
-			context = GradientColorModule.QUEUEING12_GRADIENT_CONTEXT;
-		} else if (value == cpu) {
-			context = GradientColorModule.CPU_GRADIENT_CONTEXT;
+		if (value == cpu0) {
+			context = GradientColorModule.CPU0_GRADIENT_CONTEXT;
+		} else if (value == io1) {
+			context = GradientColorModule.IO1_GRADIENT_CONTEXT;
+		} else if (value == lock2) {
+			context = GradientColorModule.LOCK2_GRADIENT_CONTEXT;
+		} else if (value == lwlock3) {
+			context = GradientColorModule.LWLOCK3_GRADIENT_CONTEXT;
+		} else if (value == bufferpin4) {
+			context = GradientColorModule.BUFFERPIN4_GRADIENT_CONTEXT;
+		} else if (value == activity5) {
+			context = GradientColorModule.ACTIVITY5_GRADIENT_CONTEXT;
+		} else if (value == extension6) {
+			context = GradientColorModule.EXTENSION6_GRADIENT_CONTEXT;
+		} else if (value == client7) {
+			context = GradientColorModule.CLIENT7_GRADIENT_CONTEXT;
+		} else if (value == ipc8) {
+			context = GradientColorModule.IPC8_GRADIENT_CONTEXT;
+		} else if (value == timeout9) {
+			context = GradientColorModule.TIMEOUT9_GRADIENT_CONTEXT;
 		}
 
 		return context;
@@ -1042,32 +1004,26 @@ public class Gantt extends JPanel {
 	 */
 	private String getToolTipClassEvent(String value) {
 		String context = "";
-		if (value == other0) {
-			context = "Other";
-		} else if (value == application1) {
-			context = "Application";
-		} else if (value == configuration2) {
-			context = "Configuration";
-		} else if (value == administrative3) {
-			context = "Administrative";
-		} else if (value == concurrency4) {
-			context = "Concurrency";
-		} else if (value == commit5) {
-			context = "Commit";
-		} else if (value == network7) {
-			context = "Network";
-		} else if (value == userIO8) {
-			context = "User IO";
-		} else if (value == systemIO9) {
-			context = "System IO";
-		} else if (value == scheduler10) {
-			context = "Scheduler";
-		} else if (value == cluster11) {
-			context = "Cluster";
-		} else if (value == queueing12) {
-			context = "Queueing";
-		} else if (value == cpu) {
-			context = "CPU used";
+		if (value == cpu0) {
+			context = "CPU";
+		} else if (value == io1) {
+			context = "IO";
+		} else if (value == lock2) {
+			context = "Lock";
+		} else if (value == lwlock3) {
+			context = "Lwlock";
+		} else if (value == bufferpin4) {
+			context = "Bufferpin";
+		} else if (value == activity5) {
+			context = "Activity";
+		} else if (value == extension6) {
+			context = "Extension";
+		} else if (value == client7) {
+			context = "Client";
+		} else if (value == ipc8) {
+			context = "IPC";
+		} else if (value == timeout9) {
+			context = "Timeout";
 		}
 
 		return context;

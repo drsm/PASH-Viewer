@@ -139,7 +139,7 @@ public class GanttSqls {
 			i++;
 			ii++;
 		}
-		/** Load commandType, sqlText from Oracle database*/
+		/** Load commandType, sqlText from database*/
 		database.loadSqlTextCommandTypeFromDB(arraySqlId);
 
 		/** Load sql plan to local BDB*/
@@ -163,9 +163,8 @@ public class GanttSqls {
 			clipBoardContent.append(sqlId + ":::" + sqlText + "\n");
 
 			/** Save arraySqlIdText50 for SQL Text tab*/
-			if (!sqlType.equalsIgnoreCase("UNKNOWN")) {
-				arraySqlIdTSQLTextTab.put(ii, sqlId);
-			}
+			// if (!sqlType.equalsIgnoreCase("UNKNOWN")) { arraySqlIdTSQLTextTab.put(ii, sqlId); }
+			arraySqlIdTSQLTextTab.put(ii, sqlId);
 			
 			/** Exit when rows > 500 */
 			if (ii + 1 == Math.min(sizeGanttTable, sizeMainSqls)) {
